@@ -1,4 +1,4 @@
-package com.gms.web.controller;
+package com.gms.web.cmm;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
@@ -13,9 +13,9 @@ import org.springframework.web.bind.annotation.SessionAttributes;
 
 @Controller
 @SessionAttributes("context")
-public class HomeController {
+public class HomeCtrl {
 	
-	static final Logger logger = LoggerFactory.getLogger(HomeController.class);
+	static final Logger logger = LoggerFactory.getLogger(HomeCtrl.class);
 	@RequestMapping(value = "/", method = RequestMethod.GET)
 	public String home(HttpSession session, HttpServletRequest request) {
 		session.setAttribute("context", request.getContextPath()); 

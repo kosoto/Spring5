@@ -1,4 +1,4 @@
-package com.gms.web.controller;
+package com.gms.web.member;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
@@ -14,18 +14,15 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.bind.support.SessionStatus;
 
-import com.gms.web.domain.MemberDTO;
-import com.gms.web.service.MemberService;
-
 @Controller
 @RequestMapping("/member")
 @SessionAttributes("member")
-public class MemberController {
-	static final Logger logger = LoggerFactory.getLogger(MemberController.class);
-	@Autowired MemberDTO member;
+public class MemberCtrl {
+	static final Logger logger = LoggerFactory.getLogger(MemberCtrl.class);
+	@Autowired Member member;
 	@Autowired MemberService memberService;
 	@RequestMapping(value="/add", method=RequestMethod.POST)
-	public String add(@ModelAttribute("mem") MemberDTO mem) {
+	public String add(@ModelAttribute("mem") Member mem) {
 		return (memberService.add(mem))?"redirect:/move/enter/member/login":"enter:member/add.tiles";
 	}
 	@RequestMapping("/list")
@@ -37,20 +34,20 @@ public class MemberController {
 	@RequestMapping("/count")
 	public void count() {}
 	@RequestMapping(value="/modify",method=RequestMethod.POST)
-	public String modify(@ModelAttribute("mem") MemberDTO mem, Model model) {
+	public String modify(@ModelAttribute("mem") Member mem, Model model) {
 		memberService.modify(mem);
 		model.addAttribute("member", memberService.retrieve(mem));
 		return "login__success";
 	}
 	@RequestMapping(value="/remove",method=RequestMethod.POST)
-	public String remove(@ModelAttribute("mem") MemberDTO mem, SessionStatus sessionStatus) {
+	public String remove(@ModelAttribute("mem") Member mem, SessionStatus sessionStatus) {
 		boolean removeSuccess = (memberService.remove(mem));
 		if(removeSuccess) sessionStatus.setComplete();
 		return (removeSuccess)?"redirect:/":"enter:member/remove.tiles";
 	}
 	@RequestMapping(value="/login", method=RequestMethod.POST)
-	public String login(@ModelAttribute("mem") MemberDTO mem,Model model) {
-		MemberDTO m = memberService.login(mem);
+	public String login(@ModelAttribute("mem") Member mem,Model model) {
+		Member m = memberService.login(mem);
 		if(m != null) model.addAttribute("member",m);
 		return (m !=null)?"login__success":"redirect:/move/enter/member/login";
 	}

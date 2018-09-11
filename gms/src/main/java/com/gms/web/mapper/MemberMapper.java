@@ -5,15 +5,15 @@ import java.util.Map;
 
 import org.springframework.stereotype.Repository;
 
-import com.gms.web.domain.MemberDTO;
+import com.gms.web.member.Member;
 @Repository
 public interface MemberMapper {
-	public boolean insert(MemberDTO p);
+	public boolean insert(Member p);
 	public List<?> selectList(Map<?,?>p);
 	public List<?> selectSome(Map<?,?>p);
-	public MemberDTO selectOne(MemberDTO p);
+	public Member selectOne(Member p);
 	public int count(Map<?,?>p);
-	public void update(MemberDTO p);
-	public boolean remove(MemberDTO p);
-	public MemberDTO login(MemberDTO p);
+	public void update(Member p);
+	public boolean remove(Member p);
+	public Member login(Member p);
 }

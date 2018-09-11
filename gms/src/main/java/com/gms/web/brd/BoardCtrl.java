@@ -20,9 +20,9 @@ public class BoardCtrl {
 		logger.info("넘어온 타이틀 정보 {}",article.getTitle());
 		logger.info("넘어온 컨텐츠 정보 {}",article.getContent());
 		logger.info("넘어온 라이터 정보 {}",article.getWriter());
-		//boardService.add(article);
+		boardService.add(article);
 		return "auth:board/listAll.tiles";
-	}
+	}  
 	@RequestMapping("/list")
 	public void list() {}
 	@RequestMapping("/search")

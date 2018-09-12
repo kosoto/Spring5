@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.bind.support.SessionStatus;
 
-import com.gms.web.cmm.Retrieve;
+import com.gms.web.cmm.Util;
 
 @Controller
 @RequestMapping("/member")
@@ -24,10 +24,17 @@ public class MemberCtrl {
 	@Autowired Member member;
 	@Autowired MemberService memberService;
 	@Autowired MemberMapper memberMapper;
-	//@Autowired Status status;
 	@RequestMapping(value="/add", method=RequestMethod.POST)
 	public String add(@ModelAttribute("mem") Member mem) {
-		return (memberService.add(mem))?"redirect:/move/enter/member/login":"enter:member/add.tiles";
+		String view = "";
+		Predicate<String> p = s-> s.equals("");
+		if(p.test(memberMapper.exist(mem.getMemberId()))) {
+			Function<Member, Boolean> f = x ->{
+				return memberMapper.insert(x);
+			};
+			view = (f.apply(mem))?"redirect:/move/enter/member/login":"enter:member/add.tiles";
+		}
+		return view;
 	}
 	@RequestMapping("/list")
 	public void list() {}
@@ -52,27 +59,28 @@ public class MemberCtrl {
 	@RequestMapping(value="/login", method=RequestMethod.POST)
 	public String login(@ModelAttribute("mem") Member mem,Model model) {
 		// 선생님 코드
-		/*Predicate<String> ps = s -> !s.equals("");
 		String view = "redirect:/move/enter/member/login";
-		
-		String r = memberMapper.exist(mem.getMemberId());
-		boolean b = ps.test(r);
-		
-		if(ps.test(memberMapper.exist(mem.getMemberId()))) {
+		System.out.println("111"+memberMapper.exist(mem.getMemberId()));
+		if(Util.notONull.test(memberMapper.exist(mem.getMemberId()))) {
 			Function<Member,Member> f = (t) -> {
 				return memberMapper.login(t);
 			};
-			view = (f.apply(mem)!=null)?"login__success":view;
+			view = Util.notONull.test(f.apply(mem))?"login__success":view;
 		}
-		return view;*/
+		member = Predicate.isEqual("login__success").test(view)?
+				memberMapper.selectOne(mem):
+				new Member();				
+		Util.log.accept(member.toString());
+		return view;
+		
 		///// 아래는 내 코드
-		Predicate<Member> p = s -> s != null;
+		/*Predicate<Member> p = s -> s != null;
 		Function<Member, Member> f = (x)->{
 			return memberMapper.login(x);
 		};
 		Member m = f.apply(mem);
 		if(p.test(m)) model.addAttribute("member",m);
-		return p.test(m)?"login__success":"redirect:/move/enter/member/login";
+		return p.test(m)?"login__success":"redirect:/move/enter/member/login";*/
 	}
 	@RequestMapping("/logout")
 	public String logout(SessionStatus sessionStatus) {

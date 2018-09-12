@@ -3,21 +3,24 @@ package gms;
 public class Solution {
 	public static String solution(int n, int t, int m, int p) {
 	     String answer = "";
-	        String oneNum = "",numList="";
-	        for(int i=0;true;i++){
+	        String oneNum,numList = "";
+	        for(int i=15;i<16;i++){
 	            int j=i;
-	            while (j>=i&&j!=0){
+	            oneNum = "";
+	            while (j>=n&&j!=0){
 	                int quotion = j/n;
 	                int remainder = j%n;
 	                j = quotion;
-	                oneNum += String.valueOf(remainder);
-	                System.out.println(quotion);
-	                System.out.println(remainder);
+	                oneNum = String.valueOf(remainder) + oneNum;
+	                System.out.println("quotion :"+quotion);
+	                System.out.println("remainder :"+remainder);
+	                System.out.println("oneNum :"+oneNum);
 
 	            }
-	            oneNum += String.valueOf(j);
-	            System.out.println(oneNum);
-
+	            
+	            numList = j + numList;
+	            System.out.println(numList);
+	            
 
 	            //t개의 숫자를 구하면 종료
 	            if(t == 0)break;

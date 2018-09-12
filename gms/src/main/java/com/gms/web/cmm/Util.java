@@ -13,4 +13,4 @@ public class Util {
 	public static Predicate<String> notSnull = sNull.negate();
 	public static Predicate<Object> oNull = s -> s == null;
 	public static Predicate<Object> notONull = oNull.negate();
-}
+} 

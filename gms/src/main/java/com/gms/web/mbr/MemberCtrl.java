@@ -6,19 +6,18 @@ import java.util.function.Predicate;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.SessionAttributes;
+import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.bind.support.SessionStatus;
 
 import com.gms.web.cmm.Util;
 
-@Controller
+@RestController
 @RequestMapping("/member")
-@SessionAttributes("member")
 public class MemberCtrl {
 	static final Logger logger = LoggerFactory.getLogger(MemberCtrl.class);
 	@Autowired Member member;
@@ -56,7 +55,7 @@ public class MemberCtrl {
 		if(removeSuccess) sessionStatus.setComplete();
 		return (removeSuccess)?"redirect:/":"enter:member/remove.tiles";
 	}
-	@RequestMapping(value="/login", method=RequestMethod.POST)
+	@PostMapping(value="/login")
 	public String login(@ModelAttribute("mem") Member mem,Model model) {
 		// 선생님 코드
 		String view = "redirect:/move/enter/member/login";
@@ -67,10 +66,10 @@ public class MemberCtrl {
 			};
 			view = Util.notONull.test(f.apply(mem))?"login__success":view;
 		}
-		member = Predicate.isEqual("login__success").test(view)?
+	/*	member = Predicate.isEqual("login__success").test(view)?
 				memberMapper.selectOne(mem):
-				new Member();				
-		Util.log.accept(member.toString());
+				new Member();		*/		
+		//Util.log.accept(member.toString());
 		return view;
 		
 		///// 아래는 내 코드
@@ -83,8 +82,7 @@ public class MemberCtrl {
 		return p.test(m)?"login__success":"redirect:/move/enter/member/login";*/
 	}
 	@RequestMapping("/logout")
-	public String logout(SessionStatus sessionStatus) {
-		sessionStatus.setComplete();
+	public String logout() {
 		return "redirect:/";
 	}
 	@RequestMapping("/fileupload")

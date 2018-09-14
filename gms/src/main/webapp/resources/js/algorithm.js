@@ -34,40 +34,56 @@ algo.main = {
 			$("<ul/>")
 			.attr({id:'side__menu'})
 			.addClass('list-group').appendTo($t__l);
-			let si = [
-				'arith','fibo','swit','fact'
-			];
-			let ah = [
-				'등차수열의 합','피보나치수열의 합','스위치수열의 합','팩토리얼수열의 합'
-			];
-			for(let i=0;i<4;i++){
-				$('<li/>')
-				.attr({id : si[i]})
-				.addClass('list-group-item')
-				.appendTo($('#side__menu'))
-				.append($('<a/>')
+			
+			/*let s = $('#side__menu');
+			$.each([
+				{id:'arith',html:'등차수열의 합'},
+				{id:'fibo',html:'피보나치수열의 합'},
+				{id:'swit',html:'스위치수열의 합'},
+				{id:'fact',html:'팩토리얼수열의 합'}
+			],(i,v)=>{
+				$('<li/>').attr({id:v.id}).addClass('list-group-item').appendTo(s)
+				.append(
+						$('<a/>')
 						.attr({href : '#'})
-						.html(ah[i]))
-				;
+						.html(v.html))
+			}); */
+			
+			for(let i=0,s=$('#side__menu'),arr=[
+				{id:'arith',html:'등차수열의 합'},
+				{id:'fibo',html:'피보나치수열의 합'},
+				{id:'swit',html:'스위치수열의 합'},
+				{id:'fact',html:'팩토리얼수열의 합'}
+			];i<4;i++){
+				$('<li/>').attr({id:arr[i].id}).addClass('list-group-item').appendTo(s)
+				.append(
+						$('<a/>')
+						.attr({href : '#'})
+						.html(arr[i].html));
 			}
-			$('#arith a')
+			
+			$('#arith a')			
 			.click(e=>{
 				$t__r.empty();
 				$('<div/>')
-				.attr({id:'quest'}).appendTo($t__r);
+				.attr({id:'quest'}).appendTo($t__r)
+				.append(
 				$('<h4/>')
-				.html('시작값 x, 마지막값 y, 공차 d인 등차수열의 합을 구하시오').appendTo($('#quest'));
-				let ht = ['시작값','마지막값','공차'];
-				let id = ['s','e','d']
-				for(let i=0;i<3;i++){
-					$('<label/>').html(ht[i]).appendTo($('#quest'));
-					$('<input/>')
-					.attr({id:id[i],type:'text'}).addClass('form-control').appendTo($('#quest'));
-				}
+				.html('시작값 x, 마지막값 y, 공차 d인 등차수열의 합을 구하시오'));
+				let quest = $('#quest');
+				$.each([
+					{id:'s' , html : '시작값'},
+					{id:'e' , html : '마지막값'},
+					{id:'d' , html : '공차'}
+				],(i,v)=>{
+					$('<lable/>').html(v.html).appendTo(quest);
+					$('<input/>').attr({id:v.id,type:'text'}).addClass('form-control').appendTo(quest);
+				});
+				
 				$('<button/>').addClass('btn btn-primary')
-				.attr({type:'button'}).html('결과보기').appendTo($('#quest'))
+				.attr({type:'button'}).html('결과보기').appendTo(quest)
 				.click(e=>{
-					$('<h6/>').attr({id:'res'}).appendTo($('#quest'));
+					$('<h6/>').attr({id:'res'}).appendTo(quest);
 					if($.fn.nullChecker([  
 						$('#s').val(),
 						$('#e').val(), 
@@ -87,43 +103,141 @@ algo.main = {
 						$('#res').empty().text('빈칸을 채우세요');
 				});
 			});
+			
 			$('#fibo a')
 			.click(e=>{
 				$t__r.empty();
+				///
 				$('<div/>')
-				.attr({id:'quest'}).appendTo($t__r);
+				.attr({id:'quest'}).appendTo($t__r)
+				.append(
 				$('<h4/>')
-				.html('마지막 x항까지의 피보나치수열의 합을 구하시오').appendTo($('#quest'));
-				
-				$('<h6/>').attr({id:'res'}).appendTo($('#quest'));
-				if($.fn.nullChecker($('#l').val())){
-					let ans = '답 : ';
-					let l = $('#l').val()*1;
-					let sum =0;
-					if(l<3){
-						if(l==1) sum = 1;
-						if(l==2) sum = 2;
-					}else{
-						let a = 1;
-						let b = 1;
-						let c = 2;
-						let count = 3;
-						sum = 2;
-						while(count<=l){
-							c = a+b;
-							sum += c;
-							a = b;
-							b = c;
-							count ++;
+				.html('마지막 x항까지의 피보나치수열의 합을 구하시오'))
+				.append(
+				$('<label/>').html('마지막항'))
+				.append(
+				$('<input/>').attr({id:'l',type:"text"}).addClass('form-control'))
+				.append(
+				$('<button/>').attr({type:'button'}).html('결과보기').addClass('btn btn-primary')
+				.click(e=>{
+					$('<h6/>').attr({id:'res'}).appendTo($('#quest'));
+					if($.fn.nullChecker($('#l').val())){
+						let ans = '답 : ';
+						let l = $('#l').val()*1;
+						let sum = 0;
+						if(l<3){
+							if(l==1) sum = 1;
+							if(l==2) sum = 2;
+						}else{
+							let a = 1;
+							let b = 1;
+							let c = 2;
+							let count = 3;
+							sum = 2;
+							while(count<=l){
+								c = a+b;
+								sum += c;
+								a = b;
+								b = c;
+								count ++;
+							}
 						}
+						$('#res').empty().text(ans+sum)
+					}else{
+						$('#res').empty().text('빈칸을 채우세요');
 					}
-					$('#res').empty().text(ans+sum)
-				}else{
-					$('#res').empty().text('빈칸을 채우세요');
-				}
+				})   
+				);
 			});
 			
+			$('#swit a')
+			.click(e=>{
+				$t__r.empty();
+				$('<div/>').attr({id:'quest'}).appendTo(t__r).append(
+						$('<h4/>').html('시작값 x, 마지막값 y, 공차 d인 스위치수열의 합을 구하시오.'));
+				let quest = $('#quest');
+				$.each([
+					{id:'s',html:'시작값'},
+					{id:'e',html:'마지막값'},
+					{id:'d',html:'공차'}
+				],(i,v)=>{
+					$('<label/>').html(v.html).appendTo(quest);
+					$('<input/>').attr({id:v.id,type:"text"}).addClass('form-control').appendTo(quest);
+				});
+				
+				$('<button/>').html('결과보기').addClass('btn btn-primary').appendTo(quest)
+				.click(e=>{
+					$('<h6/>').attr({id:'res'}).appendTo(quest);
+					if($.fn.nullChecker([
+						$('#s').val(),$('#e').val(),$('#d').val()
+					])){
+						let ans = "답 : ";
+						let start = ($('#s').val())*1;
+						let end = ($('#e').val())*1;
+						let d = ($('#d').val())*1;
+						console.log(start+","+end+","+d);
+						let i = start;
+						let sum = 0;
+						let swit = 1;
+						while(i<=end){
+							sum += swit*i;
+							i += d;
+							swit *= -1;
+						}
+						$('#res').html(ans+sum);
+					}else{
+						$('#res').html('빈칸을 채우세요');
+					}
+					
+				});
+				
+			});
 			
+			$('#fact a').click(e=>{
+				$t__r.empty();
+				$('<div/>')
+				.attr({id:'quest'}).appendTo($t__r)
+				.append(
+				$('<h4/>')
+				.html('시작값 x, 마지막값 y, 공차 d인 팩토리얼수열의 합을 구하시오'));
+				let quest = $('#quest');
+				$.each([
+					{id:'s' , html : '시작값'},
+					{id:'e' , html : '마지막값'},
+					{id:'d' , html : '공차'}
+				],(i,v)=>{
+					$('<lable/>').html(v.html).appendTo(quest);
+					$('<input/>').attr({id:v.id,type:'text'}).addClass('form-control').appendTo(quest);
+				});
+				$('<button/>').addClass('btn btn-primary')
+				.attr({type:'button'}).html('결과보기').appendTo(quest)
+				.click(e=>{
+					$('<h6/>').attr({id:'res'}).appendTo(quest);
+					if($.fn.nullChecker([  
+						$('#s').val(),
+						$('#e').val(), 
+						$('#d').val()])){
+						let ans = "답 : ";
+						let start = ($('#s').val())*1;
+						let end = ($('#e').val())*1;
+						let d = ($('#d').val())*1;
+						let i = start;
+						let j = 1;
+						let fac = 1;
+						let sum = 0;
+						while(i<=end){
+							while(j<=i) 
+								fac *= j++;
+							sum += fac;
+							i+=d;
+							fac = 1;
+							j = 1;
+						}
+						$('#res').empty().text(ans+sum)
+					}else
+						$('#res').empty().text('빈칸을 채우세요');
+				});
+			});
 			
 			//주석 시작
 			/*$('#t__l').html('<a id="arith__seq"><h3>등차수열</h3></a>');

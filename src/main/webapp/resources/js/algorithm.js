@@ -244,21 +244,32 @@ algo.appl = {};
 algo.router = {
 	onCreate : x=>{
 		console.log('step2');
-		$.getScript(x+'/resources/js/router.js',    /*외부의 JS 파일을 호출, 자바의 import*/
+		/*$.getScript(x+'/resources/js/router.js',    외부의 JS 파일을 호출, 자바의 import
 			()=>{
 				console.log('step3 :'+x);
 				$.extend(new Session(x));
-				/*$.getScript(x+'/resources/js/util.js')
+				$.getScript(x+'/resources/js/util.js')
 				.done(x=>{console.log('실행');})
 				.fail(x=>{consol.log('실패');});
-				algo.main.onCreate();*/
+				algo.main.onCreate();
 				algo.util.onCreate(x);
-				
 			}
-		);
+		);*/
+		//// 비동기 로직 다루기
+		$.when(
+			$.getScript(x+'/resources/js/router.js'),
+			$.getScript(x+'/resources/js/util.js'),
+			$.Deferred(y=>{
+				$(y.resolve);
+			})
+		).done(z=>{
+			$.extend(new Session(x));
+			algo.main.onCreate();
+		});
+		///
 	}
 };
-algo.util = {
+/*algo.util = {
 	onCreate : x=>{
 		$.getScript(x+'/resources/js/util.js',   
 			()=>{
@@ -268,7 +279,7 @@ algo.util = {
 			}
 		);
 	}
-}
+}*/
 
 
 

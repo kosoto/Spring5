@@ -6,8 +6,8 @@ function Session(x){   // $ 에 전역으로 넣은것
 	sessionStorage.setItem("js",x+"/resources/js");
 	return {
 		ctx : ()=> {return sessionStorage.getItem("context");},
-		script : ()=> {return sessionStorage.getItem("css");},
-		style : ()=> {return sessionStorage.getItem("img");},
-		img : ()=> {return sessionStorage.getItem("js");}
+		script : ()=> {return sessionStorage.getItem("js");},
+		style : ()=> {return sessionStorage.getItem("css");},
+		img : ()=> {return sessionStorage.getItem("img");}
 	};
 }

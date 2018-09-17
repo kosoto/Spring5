@@ -13,6 +13,7 @@ algo = {
 			$('#wrapper').empty();
 		}
 };
+
 algo.main = {
 		onCreate:()=>{
 			console.log('step4 ::'+$.ctx());

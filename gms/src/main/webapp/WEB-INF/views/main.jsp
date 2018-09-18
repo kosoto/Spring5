@@ -7,8 +7,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <meta name="description" content="">
     <meta name="author" content="">
-	<%-- <script src="${context}/resources/js/app.js"></script> --%>
-	<script src="${context}/resources/js/algorithm.js"></script>
+	<script src="${context}/resources/js/app.js"></script>
+	<%-- <script src="${context}/resources/js/algorithm.js"></script> --%>
     <title>Freelancer - Start Bootstrap Theme</title>
 
     <!-- Bootstrap core CSS -->
@@ -40,7 +40,7 @@
     <script src="${context}/resources/js/contact_me.js"></script>
 
     <!-- Custom scripts for this template -->
-    <%-- <script src="${context}/resources/js/freelancer.min.js"></script> --%>
+    <script src="${context}/resources/js/freelancer.min.js"></script>
 
   </head>
 <body id="page-top"> 	
@@ -49,8 +49,8 @@
 </div>
 
 <script>
-	//app.init('${context}');
-	algo.init('${context}');
+	app.init('${context}');
+	//algo.init('${context}');
 </script>
 </body>
 </html>

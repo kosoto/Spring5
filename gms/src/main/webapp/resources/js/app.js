@@ -1,7 +1,8 @@
 "use strict";
 var app = app || {};
+
 var user = user || {};
-app = {
+/*app = {
 		init : x =>{
 			console.log("step1");
 			app.onCreate();
@@ -29,11 +30,11 @@ app = {
 				location.href = app.x()+"/move/enter/member/add";
 			});
 			$("#joinBth").click(()=>{
-				/*var form = document.getElementById("joinForm");
+				var form = document.getElementById("joinForm");
 				form.action = app.x()+"/member/add";
 				form.method = "POST";
-				form.submit();*/
-				/*메소드 체이닝*/
+				form.submit();
+				메소드 체이닝
 				$('#joinForm').attr({
 					action:app.x()+"/member/add",
 					method:"POST"
@@ -79,7 +80,7 @@ app = {
 			console.log("step4 : "+app.j());
 			
 		}
-};
+};*/
 
 user.session = x=>{
 	$.each(x,(k,v)=>{
@@ -87,3 +88,122 @@ user.session = x=>{
 		sessionStorage.setItem(k, v);
 	});
 }
+app = (()=>{
+	var init =x=>{
+		console.log("step1"+x);
+		app.router.init(x);
+	
+	};
+	var onCreate =x=>{
+		setContentView();
+		//AJAX 코딩 영역
+	};
+	var setContentView=x=>{
+		
+	};
+	return {init:init};
+})();
+app.main =(()=>{
+	var header,footer,content,navi,footer,copyright,scrollToTopButton,portfolio,ctx,script,style,img,w;
+	var init =()=>{
+		ctx = $.ctx();
+		script = $.script();
+		style = $.style();
+		img = $.img();
+		w = $('#wrapper');
+		header = script +'/header.js';
+		content= script +'/content.js';
+		navi = script +'/navi.js';
+		footer = script +'/footer.js';
+		copyright = script +'/copyright.js';
+		scrollToTopButton = script +'/scrollToTopButton.js';
+		portfolio = script +'/portfolio.js';
+		onCreate()
+	};
+	var onCreate=()=>{
+		setContentView()
+	};
+	var setContentView=()=>{
+		 $.when(
+				$.getScript($.script()+'/navi.js'),
+				$.getScript($.script()+'/header.js'),
+	            $.getScript($.script()+'/content.js'),
+	            $.getScript($.script()+'/footer.js'),
+	            $.getScript($.script()+'/copyright.js'),
+	            $.getScript($.script()+'/scrollToTopButton.js'),
+	            $.getScript($.script()+'/portfolio.js'),
+	            $.Deferred(y=>{
+	            	$(y.resolve);
+	            	console.log('step3');
+	            })).done(z=>{
+	            	w.html(
+            			naviUI()
+            			+headerUI(ctx)
+            			+contentUI(ctx)
+            			+footerUI()
+            			+copyrightUI()
+            			+scrollToTopButtonUI()
+            			+portfolioUI(ctx)
+	            	);
+		        	console.log('step4');
+		        	$('#login').click(e=>{
+		        		e.preventDefault();//dafault는 DOM이기때문에 그것을 무시하고 ajax를 실행하게 하는 메소드 
+		        		console.log('로그인 버튼 누름');
+		        		app.permission.login();
+		        	})
+		        	$('#board').click(e=>{
+		        		e.preventDefault();
+		        		app.board.list();
+		        	});
+		        })
+		        .fail(x=>{
+		        	console('에러'+x)
+		        });
+	};
+	return {init:init};
+})();
+app.board = (()=>{
+	var init =()=>{
+		
+	};
+	var onCreate=()=>{
+		
+	};
+	var setContentView =()=>{
+		console.log('게시판');
+		$('#header').remove();
+		$('#content').empty();
+	};
+	return {init:init};
+})();
+app.permission =(()=>{
+	var login =()=>{
+		console.log('로그인');
+		$('#header').remove();
+		$('#content').empty();
+		$.getScript($.script()+'/login.js',
+				()=>{
+					console.log('login.js 로드');
+					$('#content').html(loginUI());
+		})
+	};
+	return {login:login};
+})();
+app.router = {
+		init : x=>{
+			console.log('step2');
+			$.when(
+				$.getScript(x+'/resources/js/router.js',
+						()=>{
+							$.extend(new Session(x));
+						}
+				),
+				$.getScript(x+'/resources/js/util.js'),
+				$.Deferred(y=>{
+					$(y.resolve);
+				})
+			).done(z=>{
+				app.main.init();
+			});
+		}
+	};

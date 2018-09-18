@@ -66,17 +66,37 @@ algo.main = (()=>{
 				.click(e=>{
 					$t__r.empty();
 					$('<h6>화폐문제</h6>').appendTo($t__r);
+					
 					ui.input({
 						id : 'money',
 						type : 'text',
 						spantxt : '입금액',
 						placeholder : '입금액'
-					})
-					/*.prepend(ui.label({
-						id:'money-lab',
-						txt:'입금액'
-					}))*/
+					})					
 					.appendTo($t__r);
+					ui.btn({
+						txt:'전 송',
+						clazz:'primary'
+						})
+					.appendTo($t__r)
+					.click(e=>{
+						alert('화폐금액'+$('#money').val());
+						$.ajax({
+							url : ctx+'/algo/money',
+							method : 'post',
+							contentType : 'application/json',
+							data : JSON.stringify({money : $('#money').val()}),
+							success : d=>{
+								alert('AJAX 성공'+d.test);
+							},
+							error : (m1,n2,m3)=>{
+								alert('에러발생1'+m1);
+								alert('에러발생2'+m2);
+								alert('에러발생3'+m3);
+							}
+						});
+					});
+						
 				});
 			});
 			////

@@ -195,7 +195,7 @@ app.router = {
 			$.when(
 				$.getScript(x+'/resources/js/router.js',
 						()=>{
-							$.extend(new Session(x));
+							$.extend(new Session(x));	
 						}
 				),
 				$.getScript(x+'/resources/js/util.js'),
@@ -205,5 +205,6 @@ app.router = {
 			).done(z=>{
 				app.main.init();
 			});
+			
 		}
 	};

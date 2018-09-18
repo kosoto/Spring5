@@ -1724,6 +1724,6 @@
 		        }
 		    }).catch(function () {});
 		} */
-</script>
+	</script>
 </body>
 </html>

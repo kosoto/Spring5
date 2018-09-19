@@ -13,7 +13,105 @@ algo = {
 			$('#wrapper').empty();
 		}
 };
-algo.main = {
+
+algo.main = (()=>{
+	var $wrapper,ctx,img,script,style,compo,json,$t__l,$t__r;
+	var onCreate = ()=>{
+		console.log('step4 ::'+$.ctx());
+		ctx = $.ctx();
+		img = $.img();
+		script = $.script();
+		compo = script+'/compo.js';
+		setContentView();
+	};
+	var setContentView = ()=>{
+		console.log('step5 ::'+$.ctx());
+		$('#wrapper').html('<h1>알고리즘<h1><span id="seq">수 열</span><span id="appl">응 용</span><div id="content"></div>'
+				+'<table id="tbl" style="width:800px;height:300px;'
+				+'border-collapse: collapse;border: 1px solid black;marjin:0 auto">'
+				+ '<tr style="border: 1px solid black;">'
+				+  '<td id="t__l" style="width: 50%;border: 1px solid black;"></td>'
+				+  '<td id="t__r" style="width: 50%;border: 1px solid black;"></td>'
+				+ '</tr>'
+				+'</table>'
+				+'</div>');
+		$t__l = $('#t__l');
+		$t__r = $('#t__r');  //변수이름에 $는 DOM 객체라는 의미.
+		$('#seq').click(e=>{
+			$t__l.empty();
+			$t__r.empty();
+			$.fn.ul('side__menu',$t__l);
+			for(let i=0,s=$('#side__menu'),arr=[
+				{id:'arith',html:'등차수열의 합'},
+				{id:'fibo',html:'피보나치수열의 합'},
+				{id:'swit',html:'스위치수열의 합'},
+				{id:'fact',html:'팩토리얼수열의 합'}
+			];i<4;i++){
+				$.fn.li(arr[i].id,s).append($.fn.a('#',arr[i].html));
+			}
+			algo.series.arith($t__r);
+			algo.series.fibonacci($t__r);
+			algo.series.swit($t__r);
+			algo.series.factorial($t__r);
+		});
+	
+		$('#appl').click(e=>{
+			alert('appl click');
+			$t__l.empty();
+			$t__r.empty();
+			///
+			$.getScript(compo,()=>{
+				ui.ul({len : 3,id:'menu'}).appendTo($t__l);
+				ui.anchor({txt:'화폐문제'}).appendTo('#menu-0')
+				.click(e=>{
+					$t__r.empty();
+					$('<h6>화폐문제</h6>').appendTo($t__r);
+					
+					ui.input({
+						id : 'money',
+						type : 'text',
+						spantxt : '입금액',
+						placeholder : '입금액'
+					})					
+					.appendTo($t__r);
+					ui.btn({
+						txt:'전 송',
+						clazz:'primary'
+						})
+					.appendTo($t__r)
+					.click(e=>{
+						alert('화폐금액'+$('#money').val());
+						$.ajax({
+							url : ctx+'/algo/money',
+							method : 'post',
+							contentType : 'application/json',
+							data : JSON.stringify({money : $('#money').val()}),
+							success : d=>{
+								alert('AJAX 성공'+d.test);
+							},
+							error : (m1,n2,m3)=>{
+								alert('에러발생1'+m1);
+								alert('에러발생2'+m2);
+								alert('에러발생3'+m3);
+							}
+						});
+					});
+						
+				});
+			});
+			////
+			/*$.fn.ul('side__menu',$t__l);
+			$.fn.li('cash',$('#side__menu')).append($.fn.a('#','지폐문제'));*/
+		});
+		
+	};
+	return {
+		onCreate : onCreate,
+		setContentView : setContentView
+	};
+})();
+
+/*algo.main = {
 		onCreate:()=>{
 			console.log('step4 ::'+$.ctx());
 			algo.main.setContentView();
@@ -37,16 +135,15 @@ algo.main = {
 				{id:'swit',html:'스위치수열의 합'},
 				{id:'fact',html:'팩토리얼수열의 합'}
 			];i<4;i++){
-				$.fn.li(arr[i].id,s)
-				.append($.fn.a('#',arr[i].html));
+				$.fn.li(arr[i].id,s).append($.fn.a('#',arr[i].html));
 			}
-			;
+			
 			algo.series.arith($t__r);
 			algo.series.fibonacci($t__r);
 			algo.series.swit($t__r);
 			algo.series.factorial($t__r);
 		}
-};
+};*/
 algo.series = {
 		arith : x=>{
 			console.log("algo.series.arith"+x);
@@ -237,7 +334,9 @@ algo.matrix = {
 		diamond : x=>{},
 		zigzag : x=>{}
 };
-algo.math = {};
+algo.math = {
+		
+};
 algo.appl = {};
 
 
@@ -255,15 +354,18 @@ algo.router = {
 				algo.util.onCreate(x);
 			}
 		);*/
-		//// 비동기 로직 다루기
+		//// js Promise 비동기 로직 다루기
 		$.when(
-			$.getScript(x+'/resources/js/router.js'),
+			$.getScript(x+'/resources/js/router.js',
+					()=>{
+						$.extend(new Session(x));
+					}
+			),
 			$.getScript(x+'/resources/js/util.js'),
 			$.Deferred(y=>{
 				$(y.resolve);
 			})
 		).done(z=>{
-			$.extend(new Session(x));
 			algo.main.onCreate();
 		});
 		///
@@ -280,17 +382,3 @@ algo.router = {
 		);
 	}
 }*/
-
-
-
-
-
-
-
-
-
-
-
-
-
-

@@ -1,7 +1,7 @@
 package com.gms.web.mbr;
 
+import java.util.HashMap;
 import java.util.function.Function;
-import java.util.function.Predicate;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -9,8 +9,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.bind.support.SessionStatus;
 
@@ -21,19 +23,24 @@ import com.gms.web.cmm.Util;
 public class MemberCtrl {
 	static final Logger logger = LoggerFactory.getLogger(MemberCtrl.class);
 	@Autowired Member member;
-	@Autowired MemberService memberService;
 	@Autowired MemberMapper memberMapper;
-	@RequestMapping(value="/add", method=RequestMethod.POST)
-	public String add(@ModelAttribute("mem") Member mem) {
-		String view = "";
-		Predicate<String> p = s-> s.equals("");
-		if(p.test(memberMapper.exist(mem.getMemberId()))) {
+	
+	@PostMapping("/add")
+	public @ResponseBody String add(@RequestBody Member mem) {
+		logger.info("넘어온 아이디 {}",mem.getMemberId());
+		logger.info("넘어온 비번 {}",mem.getPass());
+		logger.info("넘어온 주민번호 {}",mem.getSsn());
+		logger.info("넘어온 팀아이디 {}",mem.getTeamId());
+		logger.info("넘어온 역활 {}",mem.getRoll());
+		logger.info("넘어온 과목 {}",mem.getSubject());
+		String flag = "";
+		/*if(Util.sNull.test(memberMapper.exist(mem.getMemberId()))) {
 			Function<Member, Boolean> f = x ->{
-				return memberMapper.insert(x);
+				return memberMapper.post(x);
 			};
-			view = (f.apply(mem))?"redirect:/move/enter/member/login":"enter:member/add.tiles";
-		}
-		return view;
+			flag = (f.apply(mem))?"success":"fail";
+		}*/
+		return flag;
 	}
 	@RequestMapping("/list")
 	public void list() {}
@@ -45,32 +52,31 @@ public class MemberCtrl {
 	public void count() {}
 	@RequestMapping(value="/modify",method=RequestMethod.POST)
 	public String modify(@ModelAttribute("mem") Member mem, Model model) {
-		memberService.modify(mem);
-		model.addAttribute("member", memberService.retrieve(mem));
 		return "login__success";
 	}
 	@RequestMapping(value="/remove",method=RequestMethod.POST)
 	public String remove(@ModelAttribute("mem") Member mem, SessionStatus sessionStatus) {
-		boolean removeSuccess = (memberService.remove(mem));
-		if(removeSuccess) sessionStatus.setComplete();
-		return (removeSuccess)?"redirect:/":"enter:member/remove.tiles";
+		return null;
 	}
-	@PostMapping(value="/login")
-	public String login(@ModelAttribute("mem") Member mem,Model model) {
+	@PostMapping("/login")
+	public @ResponseBody Member login(@RequestBody Member mem) {
 		// 선생님 코드
-		String view = "redirect:/move/enter/member/login";
-		System.out.println("111"+memberMapper.exist(mem.getMemberId()));
-		if(Util.notONull.test(memberMapper.exist(mem.getMemberId()))) {
+		Util.log.accept("넘어온 아이디"+mem.getMemberId());
+		Util.log.accept("넘어온 비번"+mem.getPass());
+		HashMap<String,Object> rmap = new HashMap<>();
+		
+		Member m = null;
+		if(Util.notONull.test(memberMapper.get(mem))) {
 			Function<Member,Member> f = (t) -> {
-				return memberMapper.login(t);
+				return memberMapper.get(t);
 			};
-			view = Util.notONull.test(f.apply(mem))?"login__success":view;
+			m = f.apply(mem);
+		}else {
+			
 		}
-	/*	member = Predicate.isEqual("login__success").test(view)?
-				memberMapper.selectOne(mem):
-				new Member();		*/		
-		//Util.log.accept(member.toString());
-		return view;
+		rmap.put("member", m);
+		
+		return m;
 		
 		///// 아래는 내 코드
 		/*Predicate<Member> p = s -> s != null;

@@ -10,5 +10,4 @@ import lombok.Data;
 public class Article {
 	private String bno, title, 
 		content, writer, regdate, viewcnt;
-	
 }

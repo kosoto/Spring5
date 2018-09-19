@@ -104,61 +104,14 @@ app = (()=>{
 	return {init:init};
 })();
 app.main =(()=>{
-	var header,footer,content,navi,footer,copyright,scrollToTopButton,portfolio,ctx,script,style,img,w;
 	var init =()=>{
-		ctx = $.ctx();
-		script = $.script();
-		style = $.style();
-		img = $.img();
-		w = $('#wrapper');
-		header = script +'/header.js';
-		content= script +'/content.js';
-		navi = script +'/navi.js';
-		footer = script +'/footer.js';
-		copyright = script +'/copyright.js';
-		scrollToTopButton = script +'/scrollToTopButton.js';
-		portfolio = script +'/portfolio.js';
 		onCreate()
 	};
 	var onCreate=()=>{
 		setContentView()
 	};
 	var setContentView=()=>{
-		 $.when(
-				$.getScript($.script()+'/navi.js'),
-				$.getScript($.script()+'/header.js'),
-	            $.getScript($.script()+'/content.js'),
-	            $.getScript($.script()+'/footer.js'),
-	            $.getScript($.script()+'/copyright.js'),
-	            $.getScript($.script()+'/scrollToTopButton.js'),
-	            $.getScript($.script()+'/portfolio.js'),
-	            $.Deferred(y=>{
-	            	$(y.resolve);
-	            	console.log('step3');
-	            })).done(z=>{
-	            	w.html(
-            			naviUI()
-            			+headerUI(ctx)
-            			+contentUI(ctx)
-            			+footerUI()
-            			+copyrightUI()
-            			+scrollToTopButtonUI()
-            			+portfolioUI(ctx)
-	            	);
-		        	console.log('step4');
-		        	$('#login').click(e=>{
-		        		e.preventDefault();//dafault는 DOM이기때문에 그것을 무시하고 ajax를 실행하게 하는 메소드 
-		        		console.log('로그인 버튼 누름');
-		        		app.permission.login();
-		        	})
-		        	$('#board').click(e=>{
-		        		e.preventDefault();
-		        		app.board.list();
-		        	});
-		        })
-		        .fail(x=>{
-		        	console('에러'+x)
-		        });
+		 app.router.main();
 	};
 	return {init:init};
 })();
@@ -180,14 +133,85 @@ app.permission =(()=>{
 	var login =()=>{
 		console.log('로그인');
 		$('#header').remove();
-		$('#content').empty();
 		$.getScript($.script()+'/login.js',
 				()=>{
 					console.log('login.js 로드');
 					$('#content').html(loginUI());
-		})
+					$('#login_btn').click(e=>{
+						e.preventDefault();
+						$.ajax({
+							url : $.ctx()+'/member/login',
+							method : 'post',
+							contentType : 'application/json',
+							data : JSON.stringify({
+								memberId : $('#memberId').val(),
+								pass : $('#pass').val()
+							}),
+							success : d=>{
+								alert('AJAX 성공');
+								console.log(d.memberId);
+								console.log(d.teamId);
+								console.log(d.name);
+								console.log(d.ssn);
+								console.log(d.roll);
+								console.log(d.pass);
+								console.log(d.age);
+								console.log(d.gender);
+								console.log(d.subject);
+								console.log(d.email);
+								console.log(d.phone);
+								if(d.memberId){
+									
+								}
+							},
+							error : (m1,n2,m3)=>{
+								alert('에러발생1'+m1);
+								alert('에러발생2'+m2);
+								alert('에러발생3'+m3);
+							}
+						});
+					});
+					
+		}).done(()=>{
+			
+		});
 	};
-	return {login:login};
+	var add =()=>{
+		console.log('회원가입');
+		$('#header').remove();
+		$.getScript($.script()+'/add.js',
+				()=>{
+					$('#content').html(addUI());
+					$('#joinBth').click(e=>{
+						$.ajax({
+							url:$.ctx()+'/member/add',
+							method:'POST',
+							contentType:'application/json',
+							data:JSON.stringify({
+								memberId:$('#memberId').val(),
+								pass:$('#pass').val(),
+								name:$('#name').val(),
+								ssn:$('#ssn').val(),
+								teamId:$('input[name="teamId"]:checked').val(),
+								roll:$('#roll').val()
+								
+							}),
+							success:d=>{
+								console('회원가입'+d)
+							},
+							error:(m1,m2,m3)=>{
+								alert('에러발생1'+m1);
+								alert('에러발생2'+m2);
+								alert('에러발생3'+m3);
+							}
+						});
+					});
+				})
+	}
+	return {
+		login:login,
+		add:add
+		};
 })();
 app.router = {
 		init : x=>{
@@ -205,6 +229,47 @@ app.router = {
 			).done(z=>{
 				app.main.init();
 			});
-			
+		},
+		main : ()=>{
+			 $.when(
+						$.getScript($.script()+'/navi.js'),
+						$.getScript($.script()+'/header.js'),
+			            $.getScript($.script()+'/content.js'),
+			            $.getScript($.script()+'/footer.js'),
+			            $.getScript($.script()+'/copyright.js'),
+			            $.getScript($.script()+'/scrollToTopButton.js'),
+			            $.getScript($.script()+'/portfolio.js'),
+			            $.Deferred(y=>{
+			            	$(y.resolve);
+			            	console.log('step3');
+			            })).done(z=>{
+			            	$('#wrapper').html(
+		            			naviUI()
+		            			+headerUI($.ctx())
+		            			+contentUI($.ctx())
+		            			+footerUI()
+		            			+copyrightUI()
+		            			+scrollToTopButtonUI()
+		            			+portfolioUI($.ctx())
+			            	);
+				        	console.log('step4');
+				        	$('#login').click(e=>{
+				        		e.preventDefault();//dafault는 DOM이기때문에 그것을 무시하고 ajax를 실행하게 하는 메소드 
+				        		console.log('로그인 버튼 누름');
+				        		app.permission.login();
+				        	})
+				        	$('#join').click(e=>{
+				        		e.preventDefault(); 
+				        		console.log('조인 버튼 누름');
+				        		app.permission.add();
+				        	})
+				        	$('#board').click(e=>{
+				        		e.preventDefault();
+				        		app.board.list();
+				        	});
+				        })
+				        .fail(x=>{
+				        	console('에러'+x)
+				        });
 		}
 	};

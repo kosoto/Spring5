@@ -6,13 +6,10 @@ import java.util.Map;
 import org.springframework.stereotype.Repository;
 @Repository
 public interface MemberMapper {
-	public boolean insert(Member p);
-	public List<?> selectList(Map<?,?>p);
-	public List<?> selectSome(Map<?,?>p);
-	public Member selectOne(Member p);
-	public int count(Map<?,?>p);
-	public void update(Member p);
-	public boolean remove(Member p);
-	public Member login(Member p);
-	public String exist(String p);
+	public void post(Member p);
+	public List<?> list(Map<?,?>p);
+	public Member get(Member p);
+	public Integer count(Map<?,?>p);
+	public void put(Member p);
+	public boolean delete(Member p);
 }

@@ -25,6 +25,7 @@
 	src="https://assets.nflxext.com/en_us/ffe/player/html/cadmium-playercore-6.0010.533.011.js"></script>
 </head>
 <body>
+	<!-- content -->
 	<div id="appMountPoint">
 		<div class="netflix-sans-font-loaded" data-reactroot=""
 			data-reactid="1" data-react-checksum="-1691315448">
@@ -1703,6 +1704,9 @@
 			</div>
 		</div>
 	</div>
+	<!-- content end-->
+	
+	<!-- scripts -->
 	<div>
 		<script
 			src="https://codex.nflxext.com/%5E2.0.0/truthBundle/webui/0.0.1-akira-js-v83012c76/js/js/bootstrap.js,common%7Cbootstrap.js/2/4t4z4r46484k4h05404d4y040l014A4c444f494n4q4l424e1X4u/bck/true/none"
@@ -1714,6 +1718,8 @@
 			src="https://codex.nflxext.com/%5E2.0.0/truthBundle/webui/0.0.1-akira-js-v83012c76/js/js/akira%7CakiraClient.js/2/4t4z4r46484k4h05404d4y040l014A4c444f494n4q4l424e1X4u/l/true/none"
 			crossorigin="anonymous" defer=""></script>
 	</div>
+	<!-- scripts end-->
+	
 	<script>
 		/* if ('serviceWorker' in navigator && navigator.serviceWorker.getRegistrations) {
 		    navigator.serviceWorker.getRegistrations().then(function(registrations) {

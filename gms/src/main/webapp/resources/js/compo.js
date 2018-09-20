@@ -1,7 +1,7 @@
 "use strict";
 var ui={
 	div : x=>{return $('<div/>').attr(x);},
-	anchor : x=>{return $('<a/>').attr({href:'#'}).html(x.txt);},
+	anchor : x=>{return $('<a/>').attr({href:'#',id:x.id}).html(x.txt);},
 	ul : x=>{  
 		let ul = $('<ul/>');
 		for(let i=0;i<x.len;i++){

@@ -32,7 +32,7 @@ function addUI(){
 		+'<option value="android">안드로이드개발</option>'
 		+'<option value="minfe">민폐</option>'
 		+'<option value="none">없음</option>'
-	+'</select>		'
+	+'</select>'
 	+'<br>'
 +'수강과목'
 	+'<input type="checkbox" name="subject"'

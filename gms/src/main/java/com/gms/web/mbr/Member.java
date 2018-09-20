@@ -24,6 +24,7 @@ public class Member {
 				email,
 				phone;
 
+
 	
 
 

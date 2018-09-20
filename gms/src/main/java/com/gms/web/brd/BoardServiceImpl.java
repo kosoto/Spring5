@@ -6,8 +6,8 @@ import java.util.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 @Service
-public class BoardServiceImpl implements BoardService{
-	@Autowired BoardMapper boardMapper;
+public class BoardServiceImpl implements BoardService3{
+	@Autowired BoardMapper2 boardMapper;
 	@Override
 	public void add(Article p) {
 		p.setRegdate(new SimpleDateFormat("yy:MM:dd").format(new Date()));

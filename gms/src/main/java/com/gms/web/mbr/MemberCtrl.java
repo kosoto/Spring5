@@ -1,6 +1,7 @@
 package com.gms.web.mbr;
 
 import java.util.HashMap;
+import java.util.StringTokenizer;
 import java.util.function.Function;
 
 import org.slf4j.Logger;
@@ -33,6 +34,10 @@ public class MemberCtrl {
 		logger.info("넘어온 팀아이디 {}",mem.getTeamId());
 		logger.info("넘어온 역활 {}",mem.getRoll());
 		logger.info("넘어온 과목 {}",mem.getSubject());
+		StringTokenizer tokenizer = new StringTokenizer(mem.getSubject(), "[],\"");
+		while(tokenizer.hasMoreTokens()) {
+			Util.log.accept(tokenizer.nextToken());
+		}
 		String flag = "";
 		/*if(Util.sNull.test(memberMapper.exist(mem.getMemberId()))) {
 			Function<Member, Boolean> f = x ->{

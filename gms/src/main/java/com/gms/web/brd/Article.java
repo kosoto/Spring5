@@ -8,6 +8,6 @@ import lombok.Data;
 @Data
 @Lazy
 public class Article {
-	private String bno, title, 
-		content, writer, regdate, viewcnt;
+	private String 
+		bno, title, content, writer, regdate, viewcnt;
 }

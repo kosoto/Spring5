@@ -1,4 +1,4 @@
-package com.gms.web.exam;
+package com.gms.web.lambda;
 
 import java.util.function.Consumer;
 import java.util.function.Function;

@@ -92,7 +92,6 @@ app = (()=>{
 	var init =x=>{
 		console.log("step1"+x);
 		app.router.init(x);
-	
 	};
 	var onCreate =x=>{
 		setContentView();

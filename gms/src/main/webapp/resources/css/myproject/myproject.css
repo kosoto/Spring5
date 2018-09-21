@@ -1,0 +1,179 @@
+/*! normalize.css v3.0.3 | MIT License | github.com/necolas/normalize.css */
+* {
+	-webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;  /* 테두리 사이즈 */
+    -webkit-font-smoothing: antialiased; /* 다른 운영체제에서 폰트 깨짐 방지 */
+}
+
+html, body {
+    background: #ffffff;  /* 배경 색 */
+    color: #000000;  /* 폰트 색 */
+    font-family: "Noto Sans", "Apple SD Gothic Neo", "Nanum Gothic", "Malgun Gothic", sans-serif; /* 폰트 : 첫번째 부터 폰트가 적용되지 않는 문자는 그다음 폰트로 순차적용 */
+    font-weight: 300;  /* 폰트 굵기 */
+}
+
+div {
+    display: block;  
+}
+
+.rec-row .rec-row__title {
+    margin-bottom: 1.5625vw;
+    padding: 0 50px;
+    font-size: 1.40625vw;
+    line-height: 100%;
+    color: rgba(255,255,255,0.7);
+}
+
+/*  보류
+h1, h2, h3, h4, h5, h6 {
+    margin: 0;
+    padding: 0;
+    font-weight: 500;
+} */
+
+/* h5 {  user agent stylesheet
+    display: block;
+    font-size: 0.83em;
+    margin-block-start: 1.67em;
+    margin-block-end: 1.67em;
+    margin-inline-start: 0px;
+    margin-inline-end: 0px;
+    font-weight: bold;
+} */
+
+.rec-row .rec-row__show-more {
+    float: right;  /* 오른쪽 정렬 */
+    font-size: 1.09375vw;
+    letter-spacing: -0.0390625vw;  /* 글자 사이 간격 */
+}
+
+a {
+    text-decoration: none;  /* 밑줄 제거 */
+    /* color: rgba(255,255,255,0.5); */
+    color: #00ffff;
+    background-color: #7d191900;
+}
+
+/* a:-webkit-any-link { user agent stylesheet
+    color: -webkit-link;
+    cursor: pointer;
+    text-decoration: underline;
+} */
+
+.row {
+    margin-bottom: 4.21875vw;
+}
+
+@media (max-width: 958px)
+.row {
+    margin-bottom: 9.28125vw;
+}
+
+@media (max-width: 959px) and (min-width: 620px)
+.row {
+    margin-bottom: 6.5390625vw;
+}
+
+.slider {
+    position: relative;
+}
+
+.rec-row .slider {
+    padding-left: 50px;  /* 왼쪽 정렬 + 50px 벌리기 */
+    padding-right: 50px;  /* 오른쪽 정렬 + 50px 벌리기 */
+}
+
+.slider .slider__contents-container .slider__contents {
+    white-space: nowrap; /* 스페이스와 탭, 줄바꿈, 자동줄바꿈 처리 */
+    overflow-x: visible; /* 내용이 좌우로 넘칠때 어떻게 보여줄지 */
+}
+
+.slider-item {
+    display: inline-block;  /* 횡으로 정렬 */
+    width: 50%;
+    transition: transform 0.4s cubic-bezier(0.86, -0.32, 0, 1.69) 0s; /* 모르겠다 */
+}
+
+@media (max-width: 959px) and (min-width: 620px)
+.slider-item {
+    width: 33.3333333333%;
+}
+
+.content {
+    position: relative;
+    cursor: pointer;
+    -webkit-transition: -webkit-transform 0.4s cubic-bezier(0.5, 0, 0.1, 1) 0s;
+    -moz-transition: -moz-transform 0.4s cubic-bezier(0.5, 0, 0.1, 1) 0s;
+    -o-transition: -o-transform 0.4s cubic-bezier(0.5, 0, 0.1, 1) 0s;
+    transition: transform 0.4s cubic-bezier(0.5, 0, 0.1, 1) 0s;
+}
+
+.content .content__stillcut-container {
+    width: 100%;
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center center;
+    background-color: #222222;
+    border: 0.15625vw solid #191919;
+    padding: 28.125% 0;
+}
+
+.content .content__overlay {
+	/* 이미지에 그림자 넣기 우린 안해도 될듯 */
+    /* position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    top: 0;
+    background: linear-gradient(to top, rgba(18,18,24,0.7) 10%, transparent 80%); */
+}
+
+/* 분석 해야됨 */
+.content .content__title {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    font-size: 1.171875vw;
+    color: rgba(255,255,255,0.9);
+    padding: 16% 0.9375vw 0.78125vw;
+    white-space: pre-wrap;
+    white-space: -moz-pre-wrap;
+    white-space: -o-pre-wrap;
+    word-wrap: break-word;
+}
+
+@media (max-width: 958px)
+.content .content__title {
+    font-size: 2.578125vw;
+    padding: 16% 2.0625vw 1.71875vw;
+}
+
+@media (max-width: 959px) and (min-width: 620px)
+.content .content__title {
+    font-size: 1.81640625vw;
+    padding: 16% 1.453125vw 1.2109375vw;
+}
+
+.home-page .home-page__rec-list {
+    padding: 2.1875vw 0;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

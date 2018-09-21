@@ -16,8 +16,7 @@
 <script
 	src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/js/bootstrap.min.js"></script>
 <script src="${context}/resources/js/myproject/kst.js"></script>
-<%-- <link href="${context}/resources/css/myproject/style.css" rel="stylesheet"> --%>
-<link href="${context}/resources/css/myproject/watcha.css" rel="stylesheet">
+<link href="${context}/resources/css/myproject/myproject.css" rel="stylesheet">
 </head>
 <body>
 	<div id="wrapper">
@@ -98,7 +97,7 @@
 		<!-- content -->
 		<div id="content" class="container-fluid">
 			<!-- img row -->
-			<div class="rec-row" data-reactid=".242jfx9ajuo.2.0.1.$4">
+				<div class="rec-row" data-reactid=".242jfx9ajuo.2.0.1.$4">
 	<h5 class="rec-row__title" data-reactid=".242jfx9ajuo.2.0.1.$4.0">
 		<span data-reactid=".242jfx9ajuo.2.0.1.$4.0.0">책을 보다</span><a
 			class="rec-row__show-more" href="/staffmades/1110"

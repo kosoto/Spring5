@@ -24,8 +24,6 @@ var ui={
 			aria_describedby : x.basic_addon1
 			}).addClass('form-control'));
 		return res;
-		
-		
 		/*return $('<div/>')
 		.addClass('input-group mb-3')
 		.append($('<div/>'))
@@ -61,8 +59,7 @@ var ui={
 		return p;
 	},
 	inputGroup : x=>{
-		return 
-		'<div class="input-group mb-3">'
+		return '<div class="input-group mb-3">'
 		+'  <div class="input-group-prepend">'
 		+'    <span class="input-group-text">@</span>'
 		+'  </div>'
@@ -72,5 +69,55 @@ var ui={
 	btn : x=>{
 		// <button type="button" class="btn btn-primary">Primary<button/>
 		return $('<button/>').attr('type',"button").html(x.txt).addClass('btn btn-'+x.clazz);
+	},
+	tbl : x=>{
+		/*
+	    <div class="panel panel-default">
+		  <!-- Default panel contents -->
+		  <div class="panel-heading">Panel heading</div>
+		  <div class="panel-body">
+		    <p>...</p>
+		  </div>
+
+		  <!-- Table -->
+		  <table class="table">
+		    ...
+		  </table>
+		</div>
+		type, table-id, pannel-head, pannel-body
+		 */
+		let t = $('<table/>').attr({id:x.id}).addClass("table"+x.table);
+		let tr = $('<tr/>');
+		$.each(x.list,(i,j)=>{
+			$('<th/>').attr({scope:"col"}).html(j).appendTo(tr);
+		});
+		tr.appendTo($('<thead/>').appendTo(t));
+		$('<tbody/>').appendTo(t);
+		return $('<div/>').addClass("panel panel-"+x.type)
+				.append(
+					$('<div/>').addClass("panel-heading").text(x.head),
+					$('<div/>').addClass("panel-body").append($('<p/>').text(x.body)),
+					t
+				);
 	}
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

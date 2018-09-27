@@ -43,33 +43,37 @@ kst.router = {
 			});
 		},
 		main : ()=>{
-			/*$.when(
+			$.when(
 					$.getScript($.script()+'/myproject/navi.js'),
-					$.getScript($.script()+'/myproject/banner.js'),
+					$.getScript($.script()+'/myproject/header.js'),
 					$.getScript($.script()+'/myproject/content.js'),
-					$.getScript($.script()+'/myproject/footer.js'),
 					$.Deferred(y=>{
 		            	$(y.resolve);
 		            })
 			)
 			.done(x=>{
-				
+				$('#wrapper').html(
+            			naviUI()
+            			+headerUI($.ctx())
+            			+contentUI($.ctx())
+	            	);
+				$('#login').click(e=>{
+					e.preventDefault();
+					kst.permission.login();
+				});
+				$('#join').click(e=>{
+					e.preventDefault();
+					kst.permission.add();
+				});
+				$('#board').click(e=>{
+					e.preventDefault();
+					kst.board.init();
+				});
 			})
 			.fail(x=>{
 				console.log('error'+x);
-			})*/
-			$('#login').click(e=>{
-				e.preventDefault();
-				kst.permission.login();
-			});
-			$('#join').click(e=>{
-				e.preventDefault();
-				kst.permission.add();
-			});
-			$('#board').click(e=>{
-				e.preventDefault();
-				kst.board.init();
-			});
+			})
+			
 		}
 	};
 kst.permission =(()=>{
@@ -85,7 +89,6 @@ kst.permission =(()=>{
 						.css({width:'50px'})
 						.addClass('btn btn-primary')
 						.appendTo($('#loginBox'))
-						
 						//$('#login_btn')
 						.click(e=>{
 							e.preventDefault();
@@ -193,13 +196,62 @@ kst.permission =(()=>{
 })();
 kst.board = (()=>{
 	var init =()=>{
-		
+		onCreate();
 	};
 	var onCreate=()=>{
-		
+		setContentView();
 	};
 	var setContentView=()=>{
-		
+		$('#header').remove();
+		$('#content').empty();
+		$.getJSON($.ctx()+"/boards/1",d=>{
+			$.getScript($.script()+"/compo.js",()=>{
+				ui.tbl({
+					type : "default",
+					id : "table",
+					head : "게시판",
+					body : "오픈게시판... 누구든지 사용가능",
+					table : " table-bordered",
+					list : ['No','제목','내용','글쓴이','작성일','조회수']
+				})
+				.appendTo('#content');
+				
+				$.each(d,function(){
+					console.log(this.regdate);
+					$('<tr/>')
+					.append(
+						$('<th scope="row"/>').html(this.bno).attr('width','5%'),
+						$('<td/>').html(this.title).attr('width','10%'),	
+						$('<td/>').html(this.content).attr('width','50%'),	
+						$('<td/>').html(this.writer).attr('width','10%'),
+						$('<td/>').html(this.regdate).attr('width','10%'),
+						$('<td/>').html(this.viewcnt).attr('width','5%')	
+					)
+					.appendTo($('tbody'));
+				});
+				
+			});
+		});
 	};
 	return {init:init};
 })();
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

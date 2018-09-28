@@ -67,7 +67,7 @@ kst.router = {
 				});
 				$('#board').click(e=>{
 					e.preventDefault();
-					kst.board.init(1);
+					kst.board.init();
 				});
 			})
 			.fail(x=>{
@@ -195,73 +195,75 @@ kst.permission =(()=>{
 		};
 })();
 kst.board = (()=>{
-	var init =(x)=>{
-		onCreate(x);
+	var init =()=>{
+		onCreate();
 	};
-	var onCreate=(x)=>{
-		setContentView(x);
+	var onCreate=()=>{
+		setContentView();
 	};
-	var setContentView=(x)=>{
-		$('#header').remove();
-		$('#content').empty();
-		$.getJSON($.ctx()+"/boards/"+x,d=>{
-			$.getScript($.script()+"/compo.js",()=>{
-				ui.tbl({
-					type : "default",
-					id : "table",
-					head : "게시판",
-					body : "오픈게시판... 누구든지 사용가능",
-					table : " table-bordered",
-					list : ['No','제목','내용','글쓴이','작성일','조회수']
-				})
-				.appendTo('#content');
-				
-				$.each(d.list,function(){
-					console.log(this.regdate);
-					$('<tr/>')
-					.append(
-						$('<th scope="row"/>').html(this.bno).attr('width','5%'),
-						$('<td/>').html(this.title).attr('width','10%'),	
-						$('<td/>').html(this.content).attr('width','50%'),	
-						$('<td/>').html(this.writer).attr('width','10%'),
-						$('<td/>').html(this.regdate).attr('width','10%'),
-						$('<td/>').html(this.viewcnt).attr('width','5%')	
-					)
-					.appendTo($('tbody'));
-				});
-				ui.page(d.page).appendTo($('#content'));
-				$.each($('#page li'),(x,y)=>{
-					let a = $('<a/>').addClass("page-link").attr({href:"#"});
-					if(x==0){
-						a.text("◀")
-						.click(e=>{
-							e.preventDefault();
-							if((d.page.existPrev)) kst.board.init((x+d.page.prevBlock));
-						})
-					}else if(x==$('.pagination li').length-1){
-						a.text("▶")
-						.click(e=>{
-							e.preventDefault();
-							if((d.page.existNext)) kst.board.init((x+d.page.prevBlock));
-						})
-					}else{
-						a.text((x+d.page.prevBlock))
-						.click(e=>{
-							e.preventDefault();
-							kst.board.init((x+d.page.prevBlock));
-						})
-					}
-					a.appendTo(y);
-				});
-			})
-			.done(x=>{
-				
-			});
-		});
+	var setContentView=()=>{
+		kst.service.boards(1);
 	};
 	return {init:init};
 })();
-
+kst.service = {
+		boards : x=>{
+			$('#header').remove();
+			$('#content').empty();
+			$.getJSON($.ctx()+"/boards/"+x,d=>{
+				$.getScript($.script()+"/compo.js",()=>{
+					ui.tbl({
+						type : "default",
+						id : "table",
+						head : "게시판",
+						body : "오픈게시판... 누구든지 사용가능",
+						table : " table-bordered",
+						list : ['No','제목','내용','글쓴이','작성일','조회수']
+					})
+					.appendTo('#content');
+					
+					$.each(d.list,function(){
+						console.log(this.regdate);
+						$('<tr/>')
+						.append(
+							$('<th scope="row"/>').html(this.bno).attr('width','5%'),
+							$('<td/>').html(this.title).attr('width','10%'),	
+							$('<td/>').html(this.content).attr('width','50%'),	
+							$('<td/>').html(this.writer).attr('width','10%'),
+							$('<td/>').html(this.regdate).attr('width','10%'),
+							$('<td/>').html(this.viewcnt).attr('width','5%')	
+						)
+						.appendTo($('tbody'));
+					});
+					ui.page(d.page).appendTo($('#content'));
+					$.each($('#page li'),(x,y)=>{
+						let a = $('<a/>').addClass("page-link").attr({href:"#"});
+						if(x==0){
+							a.text("◀")
+							.click(e=>{
+								e.preventDefault();
+								if((d.page.existPrev)) kst.service.boards((x+d.page.prevBlock));
+							})
+						}else if(x==$('.pagination li').length-1){
+							a.text("▶")
+							.click(e=>{
+								e.preventDefault();
+								if((d.page.existNext)) kst.service.boards((x+d.page.prevBlock));
+							})
+						}else{
+							a.text((x+d.page.prevBlock))
+							.click(e=>{
+								e.preventDefault();
+								kst.service.boards((x+d.page.prevBlock));
+							})
+						}
+						a.appendTo(y);
+					});
+					
+				})
+			});
+		}
+};
 
 
 

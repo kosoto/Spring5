@@ -9,7 +9,7 @@ import lombok.Data;
 @Component @Data @Lazy
 public class Pagination implements Proxy{
 	int pageNum,count,pageSize,blockSize,beginPage,endPage,beginRow,endRow,prevBlock,nextBlock;
-	boolean existPrev,exisNext; 
+	boolean existPrev,existNext; 
 	
 	@Override
 	public void carryOut(Object o) {
@@ -27,7 +27,7 @@ public class Pagination implements Proxy{
 		prevBlock = beginPage -1;
 		nextBlock = endPage +1;
 		existPrev = (beginPage>1);
-		exisNext = (count>endPage*5);
+		existNext = (count>endPage*5);
 		
 	}
 }

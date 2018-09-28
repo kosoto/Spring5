@@ -99,6 +99,33 @@ var ui={
 					$('<div/>').addClass("panel-body").append($('<p/>').text(x.body)),
 					t
 				);
+	},
+	page : x=>{
+		/**
+		   <nav aria-label="...">
+			  <ul class="pagination">
+			    <li class="page-item disabled">
+			      <a class="page-link" href="#" tabindex="-1">Previous</a>
+			    </li>
+			    <li class="page-item"><a class="page-link" href="#">1</a></li>
+			    <li class="page-item active">
+			      <a class="page-link" href="#">2 <span class="sr-only">(current)</span></a>
+			    </li>
+			    <li class="page-item"><a class="page-link" href="#">3</a></li>
+			    <li class="page-item">
+			      <a class="page-link" href="#">Next</a>
+			    </li>
+			  </ul>
+			</nav>
+		 **/
+		let ul = $('<ul/>').attr({id:"page"}).addClass("pagination justify-content-center");
+		ul.append($('<li/>').addClass("page-item"+((x.existPrev)?"":" disabled")));
+		for(let i=x.beginPage;i<=x.endPage;i++){
+			$('<li/>').addClass("page-item"+((i==x.pageNum)?" active":""))
+			.appendTo(ul);
+		}
+		ul.append($('<li/>').addClass("page-item "+((x.existNext)?"":" disabled")));
+		return  $('<nav/>').attr({"aria-label":"pagination"}).append(ul);
 	}
 }
 

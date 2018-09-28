@@ -169,5 +169,12 @@ function contentUI(){
 +'<span data-reactid=".242jfx9ajuo.2.0.1.$4.1.1"></span>'
 +'</div>'
 +'</div>'
++'<div class="wrapper">'
+	+'<div><img class="img-fluid mb-5 d-block mx-auto"src="/web/resources/img/dog3.jpg" alt=""></div>'
+	+'<div><img class="img-fluid mb-5 d-block mx-auto"src="/web/resources/img/dog4.jpg" alt=""></div>'
+	+'<div><img class="img-fluid mb-5 d-block mx-auto"src="/web/resources/img/dog10.jpg" alt=""></div>'
+	+'<div><img class="img-fluid mb-5 d-block mx-auto"src="/web/resources/img/dog10.jpg" alt=""></div>'
+	+'<div><img class="img-fluid mb-5 d-block mx-auto"src="/web/resources/img/dog10.jpg" alt=""></div>'
++'</div>'
 +'</div>'
 }

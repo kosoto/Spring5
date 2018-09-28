@@ -67,7 +67,7 @@ kst.router = {
 				});
 				$('#board').click(e=>{
 					e.preventDefault();
-					kst.board.init();
+					kst.board.init(1);
 				});
 			})
 			.fail(x=>{
@@ -195,16 +195,16 @@ kst.permission =(()=>{
 		};
 })();
 kst.board = (()=>{
-	var init =()=>{
-		onCreate();
+	var init =(x)=>{
+		onCreate(x);
 	};
-	var onCreate=()=>{
-		setContentView();
+	var onCreate=(x)=>{
+		setContentView(x);
 	};
-	var setContentView=()=>{
+	var setContentView=(x)=>{
 		$('#header').remove();
 		$('#content').empty();
-		$.getJSON($.ctx()+"/boards/1",d=>{
+		$.getJSON($.ctx()+"/boards/"+x,d=>{
 			$.getScript($.script()+"/compo.js",()=>{
 				ui.tbl({
 					type : "default",
@@ -216,7 +216,7 @@ kst.board = (()=>{
 				})
 				.appendTo('#content');
 				
-				$.each(d,function(){
+				$.each(d.list,function(){
 					console.log(this.regdate);
 					$('<tr/>')
 					.append(
@@ -229,6 +229,32 @@ kst.board = (()=>{
 					)
 					.appendTo($('tbody'));
 				});
+				ui.page(d.page).appendTo($('#content'));
+				$.each($('#page li'),(x,y)=>{
+					let a = $('<a/>').addClass("page-link").attr({href:"#"});
+					if(x==0){
+						a.text("◀")
+						.click(e=>{
+							e.preventDefault();
+							if((d.page.existPrev)) kst.board.init((x+d.page.prevBlock));
+						})
+					}else if(x==$('.pagination li').length-1){
+						a.text("▶")
+						.click(e=>{
+							e.preventDefault();
+							if((d.page.existNext)) kst.board.init((x+d.page.prevBlock));
+						})
+					}else{
+						a.text((x+d.page.prevBlock))
+						.click(e=>{
+							e.preventDefault();
+							kst.board.init((x+d.page.prevBlock));
+						})
+					}
+					a.appendTo(y);
+				});
+			})
+			.done(x=>{
 				
 			});
 		});

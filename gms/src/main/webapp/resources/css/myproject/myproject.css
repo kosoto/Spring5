@@ -160,6 +160,11 @@ a {
     padding: 2.1875vw 0;
 }
 
+.wrapper{
+	 display: grid;
+     grid-template-columns: 25% 25% 25% 25% 25%;
+     grid-template-rows: 150px;
+}
 
 
 

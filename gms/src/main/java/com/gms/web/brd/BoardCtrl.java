@@ -28,17 +28,28 @@ public class BoardCtrl {
 	@Autowired BoardMapper boardMapper;
 	@Autowired Pagination page;
 	@RequestMapping("/boards/{pageNo}")
-	public @ResponseBody List<Board> list(@PathVariable String pageNo){
+	public @ResponseBody Map<String,Object> list(@PathVariable String pageNo){
 		logger.info("Board Ctrl {}","list");
 		Map<String,Object> rmap = new HashMap<>();
 		rmap.put("pageNum", pageNo);
-		rmap.put("count", 60);
+		rmap.put("count", boardMapper.countAll());
 		/*page.setPageNum(Integer.parseInt(pageNo));
-		page.setCount(60);*/
+		page.setCount(boardMapper.countAll());*/
 		page.carryOut(rmap);
+		logger.info("count : {}",page.getCount());
+		logger.info("pageNum : {}",page.getPageNum());
+		logger.info("existPrev : {}",page.isExistPrev());
+		logger.info("prevBlock : {}",page.getPrevBlock());
+		logger.info("beginPage : {}",page.getBeginPage());
+		logger.info("endPage : {}",page.getEndPage());
+		logger.info("existNext : {}",page.isExistNext());
+		logger.info("nextBlock : {}",page.getNextBlock());
 		List<Board> list = boardMapper.listAll(page);
 		Util.log.accept("게시글 리스트:"+list);
-		return list;
+		rmap.clear();
+		rmap.put("list", list);
+		rmap.put("page",page);
+		return rmap;
 	}
 	
 	

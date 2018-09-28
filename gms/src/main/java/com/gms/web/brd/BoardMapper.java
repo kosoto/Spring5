@@ -27,6 +27,8 @@ public interface BoardMapper {
 
   public int countPaging(Criteria cri) throws Exception;
   
+  public int countAll();
+  
   //use for dynamic sql
   
   public List<Board> listSearch(SearchCriteria cri)throws Exception;

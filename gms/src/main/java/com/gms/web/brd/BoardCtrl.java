@@ -52,6 +52,29 @@ public class BoardCtrl {
 		return rmap;
 	}
 	
+	@RequestMapping("/boards/{id}/{pageNo}")
+	public @ResponseBody Map<String,Object> myList(@PathVariable String id, @PathVariable String pageNo){
+		logger.info("Board Ctrl {}","list");
+		Map<String,Object> rmap = new HashMap<>();
+		rmap.put("pageNum", pageNo);
+		rmap.put("count", boardMapper.searchCount(id));
+		page.carryOut(rmap);
+		logger.info("count : {}",page.getCount());
+		logger.info("pageNum : {}",page.getPageNum());
+		logger.info("existPrev : {}",page.isExistPrev());
+		logger.info("prevBlock : {}",page.getPrevBlock());
+		logger.info("beginPage : {}",page.getBeginPage());
+		logger.info("endPage : {}",page.getEndPage());
+		logger.info("existNext : {}",page.isExistNext());
+		logger.info("nextBlock : {}",page.getNextBlock());
+		rmap.clear();
+		rmap.put("id", id);
+		rmap.put("page",page);
+		List<Board> list = boardMapper.listSearch(rmap);
+		Util.log.accept("게시글 리스트:"+list);
+		rmap.put("list", list);
+		return rmap;
+	}
 	
 	
 	@RequestMapping(value="/add", method=RequestMethod.POST)

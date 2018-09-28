@@ -32,7 +32,7 @@ function naviUI (){
 						+'</a></li>'
 				+'<li><a href="#"><span class="glyphicon glyphicon-star"></span></a></li>'
 				+'<li><a href="#">EVENT</a></li>'
-				+'<li id="column"><a href="#" id="board">COLUMN</a></li>'
+				+'<li><a href="#" id="board">COLUMN</a></li>'
 
 				+'</ul>'
 			+'<ul class="nav navbar-nav navbar-right">'

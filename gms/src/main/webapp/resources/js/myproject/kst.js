@@ -113,10 +113,20 @@ kst.permission =(()=>{
 									console.log(d.subject);
 									console.log(d.email);
 									console.log(d.phone);
-									if(d.memberId){
+									if(d.memberId!==undefined){
 										$('#info').html(
 											'<li><a href="#" id="logout">로그아웃</a></li>'
-										)
+										);
+										$('#column').empty().append(
+												$('<a/>').attr({id:"myBoard"}).text('MY COLUMN')
+												.click(e=>{
+													e.preventDefault()
+													kst.service.myBoard({
+														id:d.memberId,
+														pageNo:1
+													});
+												})
+										);
 										$('#logout').click(e=>{
 											kst.router.init();
 										})
@@ -258,6 +268,70 @@ kst.service = {
 							})
 						}
 						a.appendTo(y);
+					});
+					
+				})
+			});
+		},
+		myBoard : x=>{
+			$('#header').remove();
+			$('#content').empty();
+			$.getJSON($.ctx()+"/boards/"+x.id+"/"+x.pageNo,d=>{
+				$.getScript($.script()+"/compo.js",()=>{
+					ui.tbl({
+						type : "default",
+						id : "table",
+						head : "게시판",
+						body : "개인게시판",
+						table : " table-bordered",
+						list : ['No','제목','내용','글쓴이','작성일','조회수']
+					})
+					.appendTo('#content');
+					
+					$.each(d.list,function(){
+						$('<tr/>')
+						.append(
+							$('<th scope="row"/>').html(this.bno).attr('width','5%'),
+							$('<td/>').html(this.title).attr('width','10%'),	
+							$('<td/>').html(this.content).attr('width','50%'),	
+							$('<td/>').html(this.writer).attr('width','10%'),
+							$('<td/>').html(this.regdate).attr('width','10%'),
+							$('<td/>').html(this.viewcnt).attr('width','5%')	
+						)
+						.appendTo($('tbody'));
+					});
+					ui.page(d.page).appendTo($('#content'));
+					$.each($('#page li'),(i,j)=>{
+						let a = $('<a/>').addClass("page-link").attr({href:"#"});
+						if(i==0){
+							a.text("◀")
+							.click(e=>{
+								e.preventDefault();
+								if((d.page.existPrev)) kst.service.myBoard({
+									id:x.id,
+									pageNo:(i+d.page.prevBlock)
+								});
+							})
+						}else if(i==$('.pagination li').length-1){
+							a.text("▶")
+							.click(e=>{
+								e.preventDefault();
+								if((d.page.existNext)) kst.service.myBoard({
+									id:x.id,
+									pageNo:(i+d.page.prevBlock)
+								});
+							})
+						}else{
+							a.text((i+d.page.prevBlock))
+							.click(e=>{
+								e.preventDefault();
+								kst.service.myBoard({
+									id:x.id,
+									pageNo:(i+d.page.prevBlock)
+								});
+							})
+						}
+						a.appendTo(j);
 					});
 					
 				})

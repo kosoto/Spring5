@@ -18,9 +18,28 @@
  		SELECT 
  			COUNT(*)
 		FROM
-		BOARD
+			BOARD
  	</select>
- 
+ 	<select id="searchCount" resultType="int">
+ 		SELECT 
+ 			COUNT(*)
+		FROM
+			BOARD
+		WHERE 
+			writer LIKE #{id}
+ 	</select>
+ 	<select id="listSearch" resultType="com.gms.web.brd.Board">
+ 		 SELECT * 
+ 		   FROM ( 
+			SELECT row_number() over(ORDER BY bno DESC) as No, A.* 
+			FROM ( 
+			SELECT * 
+			FROM board
+			WHERE writer LIKE #{id}) A 
+			) B 
+			WHERE NO BETWEEN #{page.beginRow} AND #{page.endRow}
+			ORDER BY No
+ 	</select>
  	<!-- <insert id="insert">
 	 insert into tbl_board (title, content, writer) 
 	 values(#{title},#{content}, #{writer})

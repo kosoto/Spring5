@@ -1,6 +1,7 @@
 package com.gms.web.brd;
 
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.stereotype.Repository;
 
@@ -21,6 +22,8 @@ public interface BoardMapper {
 
   public List<Board> listAll(Pagination p) ;
 
+  public List<Board> listSearch(Map<?,?> p);
+
   public List<Board> listPage(int page) throws Exception;
 
   public List<Board> listCriteria(Criteria cri) throws Exception;
@@ -29,9 +32,9 @@ public interface BoardMapper {
   
   public int countAll();
   
-  //use for dynamic sql
+  public int searchCount(String id);
   
-  public List<Board> listSearch(SearchCriteria cri)throws Exception;
+  //use for dynamic sql
   
   public int listSearchCount(SearchCriteria cri)throws Exception;
   

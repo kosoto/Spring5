@@ -132,7 +132,7 @@ kst.permission =(()=>{
 										})
 									}
 								},
-								error : (m1,n2,m3)=>{
+								error : (m1,m2,m3)=>{
 									alert('에러발생1'+m1);
 									alert('에러발생2'+m2);
 									alert('에러발생3'+m3);

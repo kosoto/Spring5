@@ -12,7 +12,12 @@ import com.gms.web.page.Pagination;
 @Repository
 public interface BoardMapper {
 
-  public void create(Board vo) throws Exception;
+  public List<Board> listAll(Pagination p) ;
+  public int countAll();
+  public int searchCount(String id);
+  public List<Board> listSearch(Map<?,?> p);
+  
+  /*public void create(Board vo) throws Exception;
 
   public Board read(Integer bno) throws Exception;
 
@@ -20,19 +25,11 @@ public interface BoardMapper {
 
   public void delete(Integer bno) throws Exception;
 
-  public List<Board> listAll(Pagination p) ;
-
-  public List<Board> listSearch(Map<?,?> p);
-
   public List<Board> listPage(int page) throws Exception;
 
   public List<Board> listCriteria(Criteria cri) throws Exception;
 
   public int countPaging(Criteria cri) throws Exception;
-  
-  public int countAll();
-  
-  public int searchCount(String id);
   
   //use for dynamic sql
   
@@ -50,6 +47,6 @@ public interface BoardMapper {
    
   public void deleteAttach(Integer bno)throws Exception;
   
-  public void replaceAttach(String fullName, Integer bno)throws Exception;
+  public void replaceAttach(String fullName, Integer bno)throws Exception;*/
   
 }

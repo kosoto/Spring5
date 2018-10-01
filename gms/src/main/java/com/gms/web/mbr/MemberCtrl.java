@@ -69,7 +69,6 @@ public class MemberCtrl {
 		Util.log.accept("넘어온 아이디"+mem.getMemberId());
 		Util.log.accept("넘어온 비번"+mem.getPass());
 		HashMap<String,Object> rmap = new HashMap<>();
-		
 		Member m = null;
 		if(Util.notONull.test(memberMapper.get(mem))) {
 			Function<Member,Member> f = (t) -> {

@@ -9,7 +9,7 @@
     	<if test="memberId != null and memberId !=''">
     		MEMBERID LIKE #{memberId}
     	</if>
-    	<if test="pass != null and pass !=''">
+    	<if test="pass != null">
     		AND PASS LIKE #{pass}
     	</if>
     </where>

@@ -40,6 +40,28 @@
 			WHERE NO BETWEEN #{page.beginRow} AND #{page.endRow}
 			ORDER BY No
  	</select>
+ 	
+ 	<insert id="insert">
+	 insert into board (title, content, writer, regdate, viewcnt) 
+	 values(#{title},#{content}, #{writer}, #{regdate}, 0)
+	 </insert>
+	 
+	 <select id="selectOne" resultType="com.gms.web.brd.Board">
+	 select 
+	   *
+	 from 
+	   board 
+	 where bno = #{bno}
+	 </select>
+	 
+	 <update id="update">
+	 update board set title =#{title}, content =#{content} 
+	 where bno = #{bno}
+	 </update>
+	 
+	 <delete id="remove">
+	 delete from board where bno = #{bno}
+	 </delete>
  	<!-- <insert id="insert">
 	 insert into tbl_board (title, content, writer) 
 	 values(#{title},#{content}, #{writer})
@@ -53,14 +75,9 @@
 	 where bno = #{bno}
 	 </select>
 	
-	 <update id="update">
-	 update tbl_board set title =#{title}, content =#{content} 
-	 where bno = #{bno}
-	 </update>
 	
-	 <delete id="remove">
-	 delete from tbl_board where bno = #{bno}
-	 </delete>
+	
+	
 	
 	 <select id="selectList" resultType="com.gms.web.brd.Article">
 	 select 

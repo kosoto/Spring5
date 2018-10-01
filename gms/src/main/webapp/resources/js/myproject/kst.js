@@ -101,7 +101,6 @@ kst.permission =(()=>{
 									pass : $('#pass').val()
 								}),
 								success : d=>{
-									alert('AJAX 성공');
 									console.log(d.memberId);
 									console.log(d.teamId);
 									console.log(d.name);
@@ -130,6 +129,7 @@ kst.permission =(()=>{
 										$('#logout').click(e=>{
 											kst.router.init();
 										})
+										kst.session.setMember(d);
 									}
 								},
 								error : (m1,m2,m3)=>{
@@ -287,13 +287,51 @@ kst.service = {
 						list : ['No','제목','내용','글쓴이','작성일','조회수']
 					})
 					.appendTo('#content');
-					
+					$('.panel-body').append($('<span/>').append(
+							$('<a/>').text('새글 쓰기').click(e=>{
+								e.preventDefault();
+								$.getScript($.script()+"/myproject/register.js",()=>{
+									$('#content').html(registerUI());
+									$('#btns').append(
+										$('<input/>').attr({
+											type:"button",
+											value:"등록"
+										}).addClass("pull-right")
+										.click(e=>{
+											kst.service.register({
+												title:$('#title').val(),
+												content:$('#write').val()
+											});
+										}),
+										$('<input/>').attr({
+											type:"button",
+											value:"reset"
+										}).addClass("pull-left")
+										.click(e=>{
+											
+										}),
+										$('<input/>').attr({
+											type:"button",
+											value:"글 목록으로"
+										}).addClass("pull-right")
+										.click(e=>{
+											
+										})
+									);
+									
+								});
+							})
+					))
 					$.each(d.list,function(){
 						$('<tr/>')
 						.append(
 							$('<th scope="row"/>').html(this.bno).attr('width','5%'),
 							$('<td/>').html(this.title).attr('width','10%'),	
-							$('<td/>').html(this.content).attr('width','50%'),	
+							$('<td/>').html(this.content).attr('width','50%')
+							.click(e=>{
+								console.log("this.bno:"+this.bno);
+								kst.service.readPage(this.bno);
+							}),	
 							$('<td/>').html(this.writer).attr('width','10%'),
 							$('<td/>').html(this.regdate).attr('width','10%'),
 							$('<td/>').html(this.viewcnt).attr('width','5%')	
@@ -336,10 +374,90 @@ kst.service = {
 					
 				})
 			});
+		},
+		register:x=>{
+			console.log("x.content : "+x.content);
+			$.ajax({
+				url : $.ctx()+"/boards",
+				method: "post",
+				contentType : 'application/json',
+				data : JSON.stringify({
+					writer : kst.session.getMember().memberId,
+					title : x.title,
+					content : x.content
+				}),
+				success: d=>{
+					
+				},
+				error: (e1,e2,e3)=>{
+					
+				}
+			});
+		},
+		readPage:x=>{
+			console.log("x1:"+x)
+			$.getScript($.script()+"/myproject/readPage.js",()=>{
+				console.log("x2:"+x)
+				$.getJSON($.ctx()+"/boards/retrieve/"+x,d=>{
+					$("#content").html(readUI(d));
+					$('#btns').append(
+							$('<button/>').attr('type','submit').addClass('btn btn-warning modifyBtn').text('Modify')
+							.click(e=>{
+								kst.service.modifyPage(d);
+							}),
+							$('<button/>').attr('type','submit').addClass('btn btn-danger removeBtn').text('REMOVE')
+							.click(e=>{
+								$.getScript($.ctx()+"/boards/remove/"+x);
+							}),
+							$('<button/>').attr('type','submit').addClass('btn btn-primary goListBtn').text('GO LIST')
+							.click(e=>{
+								
+							})
+					);
+				});
+			});
+		},
+		modifyPage:x=>{
+			$.getScript($.script()+"/myproject/modifyPage.js",()=>{
+				$('#content').html(modifyUI(x));
+				$('#btns').append(
+					$('<button/>').attr('type','submit').addClass('btn btn-primary').text('SAVE')
+					.click(e=>{
+						alert('저장버튼 클릭')
+						$.ajax({
+							url:$.ctx()+"/boards/modify",
+							method:'post',
+							contentType:'application/json',
+							data:JSON.stringify({
+								bno:x.bno,
+								title:$('#title').val(),
+								content:$('#write').val()
+							}),
+							success:d=>{
+								
+							},
+							error:(e1,e2,e3)=>{
+								
+							}
+						});
+					}),
+					$('<button/>').attr('type','submit').addClass('btn btn-warning').text('CANCEL')
+					.click(e=>{
+						alert('취소버튼 클릭')
+					})
+				);
+			});
 		}
 };
 
-
+kst.session = {
+		setMember:d=>{
+			sessionStorage.setItem("member", JSON.stringify(d));
+		},
+		getMember:()=>{
+			return JSON.parse(sessionStorage.getItem("member"));
+		}
+}
 
 
 

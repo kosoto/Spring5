@@ -16,12 +16,15 @@ public interface BoardMapper {
   public int countAll();
   public int searchCount(String id);
   public List<Board> listSearch(Map<?,?> p);
-  
+  public void insert(Board p);
+  public Board selectOne(int bno);
+  public void update(Board p);
+  public void remove(int bno);
   /*public void create(Board vo) throws Exception;
 
   public Board read(Integer bno) throws Exception;
 
-  public void update(Board vo) throws Exception;
+ 
 
   public void delete(Integer bno) throws Exception;
 

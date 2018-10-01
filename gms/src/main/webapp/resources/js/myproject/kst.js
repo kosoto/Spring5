@@ -238,7 +238,11 @@ kst.service = {
 						.append(
 							$('<th scope="row"/>').html(this.bno).attr('width','5%'),
 							$('<td/>').html(this.title).attr('width','10%'),	
-							$('<td/>').html(this.content).attr('width','50%'),	
+							$('<td/>').html(this.content).attr('width','50%')
+							.click(e=>{
+								console.log("this.bno:"+this.bno);
+								kst.service.readPage({bno:this.bno,type:'open'});
+							}),	
 							$('<td/>').html(this.writer).attr('width','10%'),
 							$('<td/>').html(this.regdate).attr('width','10%'),
 							$('<td/>').html(this.viewcnt).attr('width','5%')	
@@ -330,7 +334,7 @@ kst.service = {
 							$('<td/>').html(this.content).attr('width','50%')
 							.click(e=>{
 								console.log("this.bno:"+this.bno);
-								kst.service.readPage(this.bno);
+								kst.service.readPage({bno:this.bno,type:"personal"});
 							}),	
 							$('<td/>').html(this.writer).attr('width','10%'),
 							$('<td/>').html(this.regdate).attr('width','10%'),
@@ -395,25 +399,28 @@ kst.service = {
 			});
 		},
 		readPage:x=>{
-			console.log("x1:"+x)
+			console.log("x1:"+x.bno)
 			$.getScript($.script()+"/myproject/readPage.js",()=>{
-				console.log("x2:"+x)
-				$.getJSON($.ctx()+"/boards/retrieve/"+x,d=>{
+				console.log("x2:"+x.bno)
+				$.getJSON($.ctx()+"/boards/retrieve/"+x.bno,d=>{
 					$("#content").html(readUI(d));
-					$('#btns').append(
-							$('<button/>').attr('type','submit').addClass('btn btn-warning modifyBtn').text('Modify')
-							.click(e=>{
-								kst.service.modifyPage(d);
-							}),
-							$('<button/>').attr('type','submit').addClass('btn btn-danger removeBtn').text('REMOVE')
-							.click(e=>{
-								$.getScript($.ctx()+"/boards/remove/"+x);
-							}),
-							$('<button/>').attr('type','submit').addClass('btn btn-primary goListBtn').text('GO LIST')
-							.click(e=>{
-								
-							})
-					);
+					let btns = $('#btns');
+					if(x.type==="personal"){
+						btns.append(
+								$('<button/>').attr('type','submit').addClass('btn btn-warning modifyBtn').text('Modify')
+								.click(e=>{
+									kst.service.modifyPage(d);
+								}),
+								$('<button/>').attr('type','submit').addClass('btn btn-danger removeBtn').text('REMOVE')
+								.click(e=>{
+									$.getScript($.ctx()+"/boards/remove/"+x.bno);
+								})
+						);
+					}
+					$('<button/>').attr('type','submit').addClass('btn btn-primary goListBtn').text('GO LIST')
+					.click(e=>{
+						
+					}).appendTo(btns);
 				});
 			});
 		},

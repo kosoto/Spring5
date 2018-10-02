@@ -5,9 +5,11 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 
 <mapper namespace="com.gms.web.point.PointMapper">
 
-	<update id="updatePoint">
-		update tbl_user set upoint = upoint + #{point} where
-		uid = #{uid}
+	<update id="update">
+		UPDATE POINT set ALL_POINT = ALL_POINT - 30,
+		MBR_POINT = MBR_POINT + 30
+		WHERE
+		MEMBERID = #{MEMBERID}
 	</update>
 
 </mapper>

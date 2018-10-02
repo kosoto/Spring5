@@ -20,7 +20,7 @@ function naviUI (){
 						+'MENU <span class="caret"></span>'
 				+'</a>'
 					+'<ul class="dropdown-menu" role="menu">'
-						+'<li><a href="#">Action</a></li>'
+						+'<li><a id="dragBtn" href="#">Drag And Drop</a></li>'
 						+'<li><a href="#">Another action</a></li>'
 						+'<li><a href="#">Something else here</a></li>'
 						+'<li class="divider"></li>'

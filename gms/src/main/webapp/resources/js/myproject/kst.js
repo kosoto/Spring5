@@ -69,6 +69,40 @@ kst.router = {
 					e.preventDefault();
 					kst.board.init();
 				});
+				$('#dragBtn').click(e=>{
+					$('#header').remove();
+					$('#content').html(
+						'<h3>AJAX File Upload</h3>'
+						+'<div class="fileDrop"></div>'
+						+'<div class="uploadedList"></div>'	
+					);
+					$('.fileDrop').attr('style','width:100%; height:200px;border:1px dotted blue;')
+					.on('dragenter dragover',e=>{
+						e.preventDefault();
+					})
+					/*;
+					$('.fileDrop')*/
+					.on('drop',e=>{
+						e.preventDefault();
+						var files = e.originalEvent.dataTransfer.files;
+						var file = files[0];
+						console.log(files);
+						var formData = new FormData();
+						formData.append("file", file);
+						$.ajax({
+							url:$.ctx()+"/uploadAjax",
+							data:formData,
+							dataType:'text',
+							processData:false,
+							contentType:false,
+							type:'POST',
+							success:d=>{
+								alert('파일 업로드 성공'+d);
+							}
+						});
+					});
+					
+				})
 			})
 			.fail(x=>{
 				console.log('error'+x);
@@ -130,6 +164,7 @@ kst.permission =(()=>{
 											kst.router.init();
 										})
 										kst.session.setMember(d);
+										//$.cookie("member",d.memberId);
 									}
 								},
 								error : (m1,m2,m3)=>{
@@ -320,7 +355,28 @@ kst.service = {
 										}).addClass("pull-right")
 										.click(e=>{
 											
+										}),
+										$('<form id="frm" action="uploadForm" method="post"'
+										  +'enctype="multipart/form-data">'
+										  +'<input type="file" name="file"><input type="submit">'
+										  +'<form/>'
+										).addClass("pull-right")
+										.click(e=>{
+											frm.method = 'POST';
+										    frm.enctype = 'multipart/form-data';
+										    $.ajax({
+										        url:$.ctx()+'/boards/fileupload',
+										        type:'POST',
+										        data:new FormData($('#frm')),
+										        async:false,
+										        cache:false,
+										        contentType:false,
+										        processData:false
+										    }).done(function(response){
+										        alert(response);
+										    });
 										})
+										
 									);
 									
 								});
@@ -391,7 +447,7 @@ kst.service = {
 					content : x.content
 				}),
 				success: d=>{
-					
+					kst.service.myBoard({id:kst.session.getMember().memberId,pageNo:"1"});
 				},
 				error: (e1,e2,e3)=>{
 					
@@ -416,11 +472,17 @@ kst.service = {
 									$.getScript($.ctx()+"/boards/remove/"+x.bno);
 								})
 						);
+						$('<button/>').attr('type','submit').addClass('btn btn-primary goListBtn').text('GO LIST')
+						.click(e=>{
+							kst.service.myBoard({id:kst.session.getMember().memberId,pageNo:"1"})
+						}).appendTo(btns);
+					}else{
+						$('<button/>').attr('type','submit').addClass('btn btn-primary goListBtn').text('GO LIST')
+						.click(e=>{
+							kst.service.boards("1");
+						}).appendTo(btns);
 					}
-					$('<button/>').attr('type','submit').addClass('btn btn-primary goListBtn').text('GO LIST')
-					.click(e=>{
-						
-					}).appendTo(btns);
+					
 				});
 			});
 		},

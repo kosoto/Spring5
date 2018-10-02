@@ -8,6 +8,8 @@ create table BOARD(
     PRIMARY KEY (bno)
 );
 
+ALTER TABLE BOARD ADD COLUMN REPLYCNT INT DEFAULT 0;
+
 INSERT INTO BOARD
 (TITLE,CONTENT,WRITER,viewcnt)
 VALUES
@@ -18,4 +20,18 @@ VALUES
 ("공자는없","공자는 없으면 풀밭에 방황하였으며 때문이다. 트고 청춘 천자만홍이 이상의 같은 끓는 것은 없으면 이상은 칼이다.","C5",0),
 ("관현악이며","관현악이며 이 길을 내려온 뛰노는 물방아 못할 아름답고 아름다우냐? 따뜻한 만물은 꽃이 꽃 얼마나 사막이다.","C5",0)
 ;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 

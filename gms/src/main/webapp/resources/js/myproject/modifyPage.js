@@ -23,7 +23,7 @@ function modifyUI(x){
 							+'</div>'
 							+'<div class="form-group">'
 								+'<label for="exampleInputEmail1">Writer</label> '
-								+'<input type="text" name="writer" class="form-control" value="'+x.writer+'">'
+								+'<input type="text" name="writer" class="form-control" value="'+x.writer+'" readonly="readonly">'
 							+'</div>'
 						+'</div>				'
 					+'<div id="btns" class="box-footer">'

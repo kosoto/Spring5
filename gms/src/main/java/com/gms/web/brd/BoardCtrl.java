@@ -1,17 +1,23 @@
 package com.gms.web.brd;
 
+import java.io.File;
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.UUID;
 import java.util.function.Consumer;
 import java.util.function.Function;
+
+import javax.annotation.Resource;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.ui.Model;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.util.FileCopyUtils;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -19,9 +25,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.gms.web.cmm.Util;
 import com.gms.web.page.Pagination;
+import com.gms.web.tx.TxService;
 
 @RestController
 public class BoardCtrl {
@@ -30,6 +38,19 @@ public class BoardCtrl {
 	@Autowired BoardService boardService;
 	@Autowired BoardMapper boardMapper;
 	@Autowired Pagination page;
+	@Autowired TxService tx;
+	@Autowired HashMap<String,Object>map;
+	@Resource(name="uploadPath")
+	private String uploadPath;
+	class FileForm {
+        private List<MultipartFile> files;
+        public List<MultipartFile> getFiles() {
+         return files;
+        }
+        public void setFiles(List<MultipartFile> files) {
+         this.files = files;
+        }
+	}
 	@GetMapping("/boards/{pageNo}")
 	public @ResponseBody Map<String,Object> list(@PathVariable String pageNo){
 		logger.info("Board Ctrl {}","list");
@@ -80,13 +101,20 @@ public class BoardCtrl {
 		logger.info("넘어온 컨텐츠 정보 {}",board.getContent());
 		logger.info("넘어온 작성자 정보 {}",board.getWriter());
 		Consumer<Board> c = x->{
-			boardMapper.insert(x);
+			//boardMapper.insert(x);
+			logger.info("add/Consumer 안");
+			map.clear();
+			map.put("board", x);
+			map.put("MEMBERID", board.getWriter());
+			tx.write(map);
+			map.clear();
 		};
 		c.accept(board);
 	}  
 	
 	@RequestMapping("/search")
 	public void search() {}
+	
 	@GetMapping("/boards/retrieve/{bno}")
 	public @ResponseBody Board retrieve(@PathVariable int bno) {
 		Function<Integer, Board> f = x->{
@@ -96,6 +124,7 @@ public class BoardCtrl {
 	}
 	@RequestMapping("/count")
 	public void count() {}
+	
 	@PostMapping("/boards/modify")
 	public @ResponseBody void modify(@RequestBody Board board) {
 		Consumer<Board> c=x->{
@@ -115,8 +144,22 @@ public class BoardCtrl {
 		return null;
 	}
 	
-	@RequestMapping("/fileupload")
-	public void fileupload() {}
+	@PostMapping("/boards/fileupload")
+	public void fileupload(@RequestBody MultipartFile file) throws IOException {
+		logger.info("boards/fileupload 진입");
+		UUID uid = UUID.randomUUID();
+		String savedName = uid.toString()+"_"+file.getOriginalFilename();
+		File f = new File(uploadPath,savedName);
+		FileCopyUtils.copy(file.getBytes(), f);
+	}
+	
+	@PostMapping("/uploadAjax")
+	public @ResponseBody ResponseEntity<String> uploadAjax(MultipartFile file) throws Exception{
+		logger.info("OriginalFilename : "+file.getOriginalFilename());
+		logger.info("size : "+file.getSize());
+		logger.info("contentTYpe : "+ file.getContentType());
+		return new ResponseEntity<>(file.getOriginalFilename(),HttpStatus.CREATED);
+	}
 }
 
 

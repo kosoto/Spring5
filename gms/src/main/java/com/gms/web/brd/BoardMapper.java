@@ -5,8 +5,6 @@ import java.util.Map;
 
 import org.springframework.stereotype.Repository;
 
-import com.gms.web.cmm.Criteria;
-import com.gms.web.cmm.SearchCriteria;
 import com.gms.web.page.Pagination;
 
 @Repository
@@ -16,10 +14,10 @@ public interface BoardMapper {
   public int countAll();
   public int searchCount(String id);
   public List<Board> listSearch(Map<?,?> p);
-  public void insert(Board p);
+  public int insert(Board p);
   public Board selectOne(int bno);
-  public void update(Board p);
-  public void remove(int bno);
+  public int update(Board p);
+  public int remove(int bno);
   /*public void create(Board vo) throws Exception;
 
   public Board read(Integer bno) throws Exception;

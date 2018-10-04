@@ -76,17 +76,15 @@ kst.router = {
 						+'<div class="fileDrop"></div>'
 						+'<div class="uploadedList"></div>'	
 					);
-					$('.fileDrop').attr('style','width:100%; height:200px;border:1px dotted blue;')
+					$('.fileDrop').attr('style','width:100%; height:200px; border:1px dotted blue;')
 					.on('dragenter dragover',e=>{
 						e.preventDefault();
 					})
-					/*;
-					$('.fileDrop')*/
 					.on('drop',e=>{
 						e.preventDefault();
 						var files = e.originalEvent.dataTransfer.files;
 						var file = files[0];
-						console.log(files);
+						console.log(file);
 						var formData = new FormData();
 						formData.append("file", file);
 						$.ajax({

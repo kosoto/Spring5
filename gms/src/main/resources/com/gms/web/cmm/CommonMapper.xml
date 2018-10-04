@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.gms.web.cmm.CommonMapper">
+<resultMap type="com.gms.web.mbr.Member" id="mbr">
+	<id property="memberId" column="MEMBERID"/>
+	<result property="teamId" column="TEAMID"></result>
+	<result property="name" column="NAME"></result>
+	<result property="ssn" column="SSN"></result>
+	<result property="roll" column="ROLL"></result>
+	<result property="pass" column="PASS"></result>
+	<result property="age" column="AGE"></result>
+	<result property="gender" column="GENDER"></result>
+	<result property="subject" column="SUBJECT"></result>
+	<result property="email" column="EMAIL"></result>
+	<result property="phone" column="PHONE"></result>
+</resultMap>
+<resultMap type="java.util.HashMap" id="boardDetail">
+	<id property="bno" column="MEMBERID"/>
+	<result property="title" column="TEAMID"></result>
+	<result property="content" column="NAME"></result>
+	<result property="writer" column="SSN"></result>
+	<result property="regdate" column="ROLL"></result>
+	<result property="viewcnt" column="PASS"></result>
+	<result property="replycnt" column="AGE"></result>
+	<result property="phone" column="PHONE"></result>
+	<association property="mbr" javaType="Member">
+		<id property="memberId" column="MEMBERID"/>
+		<result property="teamId" column="TEAMID"></result>
+		<result property="name" column="NAME"></result>
+		<result property="ssn" column="SSN"></result>
+		<result property="roll" column="ROLL"></result>
+		<result property="pass" column="PASS"></result>
+		<result property="age" column="AGE"></result>
+		<result property="gender" column="GENDER"></result>
+		<result property="subject" column="SUBJECT"></result>
+		<result property="email" column="EMAIL"></result>
+		<result property="phone" column="PHONE"></result>
+	</association>	
+	<collection property="attachs" ofType="attach">
+		<id property="seq" column="seq"></id>
+		<result property="name" column="name"/>
+		<result property="title" column="title"/>
+		<result property="content" column="content"/>
+	</collection>
+</resultMap>
+<resultMap id="info" type="map">
+	<id property="seq" column="seq"></id>
+	<result property="name" column="name"/>
+	<result property="title" column="title"/>
+	<result property="content" column="content"/>
+	<result property="teamId" column="TEAMID"></result>
+	<result property="name" column="NAME"></result>
+	<result property="ssn" column="SSN"></result>
+	<result property="roll" column="ROLL"></result>
+	<result property="pass" column="PASS"></result>
+	<result property="age" column="AGE"></result>
+	<result property="gender" column="GENDER"></result>
+	<result property="subject" column="SUBJECT"></result>
+	<result property="email" column="EMAIL"></result>
+	<result property="phone" column="PHONE"></result>
+	<result property="attachSeq" column="attachSeq"></result>
+</resultMap>
+
+  <select id="getMember" resultType="mbr">
+    SELECT * FROM MEMBER 
+    <where>
+    	<if test="memberId != null and memberId !=''">
+    		MEMBERID LIKE #{memberId}
+    	</if>
+    	<if test="pass != null">
+    		AND PASS LIKE #{pass}
+    	</if>
+    </where>
+  </select>
+
+</mapper>

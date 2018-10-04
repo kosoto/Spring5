@@ -89,7 +89,8 @@
 			</props>
 		</property>
 	</bean>
-
+	
+	<!-- Media -->
 	<bean id="contentNegotiationManager"
 		class="org.springframework.web.accept.ContentNegotiationManager">
 		<constructor-arg>
@@ -106,13 +107,13 @@
 			</bean>
 		</constructor-arg>
 	</bean>
-
-	<!-- <mvc:interceptors>
+	<bean id="sampleInterscptor" class="com.gms.web.interceptors.LoginInterceptor"/>
+	<mvc:interceptors>
 		<mvc:interceptor>
-			<mvc:mapping path="/" />
+			<mvc:mapping path="/member/login" />
 			<bean class="com.gms.web.interceptors.LoginInterceptor" />
 		</mvc:interceptor>
-	</mvc:interceptors> -->
+	</mvc:interceptors>
 
 	<tx:annotation-driven />
 
